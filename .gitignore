@@ -1,0 +1,5 @@
+/twig_cache/
+composer.phar
+/vendor/
+/config.php
+/web/static/img/games/*/*.jpg

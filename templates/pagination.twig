@@ -1,0 +1,99 @@
+{#
+  GOGGames
+  Copyright (C) 2018  GoodOldDownloads
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+
+{# Welcome to hell #}
+{# Imported from SG. (it's even worse) #}
+{% macro input(pagination, path, adjacents = 2) %}
+  {% if pagination.page < 1 %}
+    {% set page = 1 %}
+  {% else %}
+    {% set page = pagination.page %}
+  {% endif %}
+
+  {% set lastpage = (pagination.total/pagination.limit)|round(0, 'ceil') %}
+
+  {% if lastpage <= 0 %}
+    {% set lastpage = 1 %}
+  {% endif %}
+
+  {% set prevpage = page - 1 %}
+
+  <div class="pagination">
+    {% if page > 1 %}
+      <a class="btn" href="{{ path }}/{{ prevpage }}/{{ pagination.sort }}/{{ pagination.sortby }}/{{ pagination.genre|lower }}"><i class="fas fa-caret-left" aria-hidden="true"></i></a>
+    {% else %}
+      <a class="btn" disabled><i class="fas fa-caret-left" aria-hidden="true"></i></a>
+    {% endif %}
+
+    {% if lastpage < 7 + (adjacents * 2) %}
+      {% for i in 1..lastpage %}
+        {% if i == page %}
+          <span class="btn blue">{{ i }}</span>
+        {% else %}
+          <a class="btn" href="{{ path }}/{{ i }}/{{ pagination.sort }}/{{ pagination.sortby }}/{{ pagination.genre|lower }}">{{ i }}</a>
+        {% endif %}
+      {% endfor %}
+    {% elseif (pagination.total >= 7 + (adjacents * 2)) %} {# enough pages to hide some #}
+      {# close to beginning; only hide later pages #}
+      {% if page < 1 + (adjacents * 2) %}
+        {% for i in 1..(4 + (adjacents * 2)) %}
+          {% if i == page %}
+            <span class="btn blue">{{ i }}</span>
+          {% else %}
+            <a class="btn" href="{{ path }}/{{ i }}/{{ pagination.sort }}/{{ pagination.sortby }}/{{ pagination.genre|lower }}">{{ i }}</a>
+          {% endif %}
+        {% endfor %}
+        <span class="btn">...</span>
+        <a class="btn" href="{{ path }}/{{ lastpage - 1 }}/{{ pagination.sort }}/{{ pagination.sortby }}/{{ pagination.genre|lower }}">{{ lastpage - 1 }}</a>
+        <a class="btn" href="{{ path }}/{{ lastpage }}/{{ pagination.sort }}/{{ pagination.sortby }}/{{ pagination.genre|lower }}">{{ lastpage }}</a> 
+      {# in middle; hide some front and some back #}
+      {% elseif lastpage - (adjacents * 2) > page and page > (adjacents * 2) %}
+        <a class="btn" href="{{ path }}/1/{{ pagination.sort }}/{{ pagination.sortby }}/{{ pagination.genre|lower }}">1</a>
+        <a class="btn" href="{{ path }}/2/{{ pagination.sort }}/{{ pagination.sortby }}/{{ pagination.genre|lower }}">2</a>
+        <span class="btn">...</span>
+        {% for i in (page - adjacents)..(page + adjacents) %}
+          {% if i == page %}
+            <span class="btn blue">{{ i }}</span>
+          {% else %}
+            <a class="btn" href="{{ path }}/{{ i }}/{{ pagination.sort }}/{{ pagination.sortby }}/{{ pagination.genre|lower }}">{{ i }}</a>
+          {% endif %}
+        {% endfor %}
+        <span class="btn">...</span>
+        <a class="btn" href="{{ path }}/{{ lastpage - 1 }}/{{ pagination.sort }}/{{ pagination.sortby }}/{{ pagination.genre|lower }}">{{ lastpage - 1 }}</a>
+        <a class="btn" href="{{ path }}/{{ lastpage }}/{{ pagination.sort }}/{{ pagination.sortby }}/{{ pagination.genre|lower }}">{{ lastpage }}</a>
+      {% else %}
+      {# close to end; only hide early pages #}
+        <a class="btn" href="{{ path }}/1/{{ pagination.sort }}/{{ pagination.sortby }}/{{ pagination.genre|lower }}">1</a>
+        <a class="btn" href="{{ path }}/2/{{ pagination.sort }}/{{ pagination.sortby }}/{{ pagination.genre|lower }}">2</a>
+        <span class="btn">...</span>
+        {% for i in (lastpage - (2 + (adjacents * 2)))..lastpage %}
+          {% if i == page %}
+            <span class="btn blue">{{ i }}</span>
+          {% else %}
+            <a class="btn" href="{{ path }}/{{ i }}/{{ pagination.sort }}/{{ pagination.sortby }}/{{ pagination.genre|lower }}">{{ i }}</a>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endif %}
+    {% if page < lastpage %}
+      <a class="btn" href="{{ path }}/{{ page + 1 }}/{{ pagination.sort }}/{{ pagination.sortby }}/{{ pagination.genre|lower }}"><i class="fas fa-caret-right" aria-hidden="true"></i></a>
+    {% else %}
+      <a class="btn" disabled><i class="fas fa-caret-right" aria-hidden="true"></i></a>
+    {% endif %}
+  </div>
+{% endmacro %}

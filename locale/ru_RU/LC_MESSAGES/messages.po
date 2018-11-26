@@ -1,0 +1,520 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-02-17 15:14+0800\n"
+"PO-Revision-Date: 2018-02-17 15:14+0800\n"
+"Last-Translator: Haoose\n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Basepath: ../../../templates\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin.twig:3 admin.twig:7 main.twig:96
+msgid "Admin"
+msgstr "Админ"
+
+#: admin.twig:8
+msgid "Batch Tag Games:"
+msgstr "Проставить теги играм:"
+
+#: admin.twig:12
+msgid "Hide"
+msgstr "Скрыть"
+
+#: admin.twig:13
+msgid "Update"
+msgstr "Обновить"
+
+#: admin.twig:14
+msgid "Unhide"
+msgstr "Показать"
+
+#: admin.twig:16
+msgid "Upload"
+msgstr "Загрузить"
+
+#: admin.twig:19
+msgid "Edit Games:"
+msgstr "Редактировать игры"
+
+#: admin.twig:29
+msgid "Show Hidden"
+msgstr "Показать скрытые"
+
+#: admin.twig:30 admin.twig:52 admin.twig:58
+msgid "Save"
+msgstr "Сохранить"
+
+#: admin.twig:33
+msgid ""
+"%game_amount% games, %game_hidden_amount% hidden, %game_new_amount% new, "
+"%game_updated_amount% updated, %game_total_amount% total."
+msgstr ""
+"%game_amount% игры, %game_hidden_amount% скрытые, %game_new_amount% новые, "
+"%game_updated_amount% обновленные, %game_total_amount% всего."
+
+#: admin.twig:35
+msgid "Update Database:"
+msgstr "Обновить базу данных"
+
+#: admin.twig:36
+msgid "Grab New Games and Images from GOG"
+msgstr "Загрузить новые игры и картинки с GOG"
+
+#: admin.twig:37
+#, fuzzy
+#| msgid "Grab New Games and Images from GOG"
+msgid "Grab Images from GOG"
+msgstr "Загрузить новые игры и картинки с GOG"
+
+#: admin.twig:39
+msgid "Add game via ID:"
+msgstr ""
+
+#: admin.twig:42
+msgid "Add"
+msgstr ""
+
+#: admin.twig:45
+msgid "Log:"
+msgstr "Лог"
+
+#: admin.twig:48
+msgid "Donate Settings:"
+msgstr "Настройки пожертвований"
+
+#: admin.twig:55
+msgid "Edit Notice:"
+msgstr "Изменить уведомление:"
+
+#: admin.twig:61
+msgid "Edit Hosters:"
+msgstr "Изменить хостеров:"
+
+#: donate.twig:3 imports/donate.twig:1 main.twig:78
+msgid "Donate"
+msgstr "Пожертвование"
+
+#: drive_tutorial.twig:3 drive_tutorial.twig:7
+msgid "Google Drive Limit Bypass Tutorial"
+msgstr "Как обойти ограничение на Google Drive"
+
+#: drive_tutorial.twig:33
+msgid "Remove \"Copy of\" from filename"
+msgstr "Удалить \"Копия\" из имени файла"
+
+#: faq.twig:3 imports/faq.twig:1 main.twig:77
+msgid "FAQ"
+msgstr "ЧАВО"
+
+#: game.twig:22 imports/details.twig:12
+msgid "Go to GOG Store"
+msgstr "Открыть страницу игры в GOG"
+
+#: game.twig:23 imports/details.twig:13
+msgid "DOWNLOAD"
+msgstr "ЗАГРУЗИТЬ"
+
+#: game.twig:24 imports/details.twig:14
+msgid "CHANGELOG"
+msgstr "ИСТОРИЯ ИЗМЕНЕНИЙ"
+
+#: game.twig:29 game.twig:68 imports/details.twig:19 imports/details.twig:60
+msgid "Game Download Links"
+msgstr "Ссылки для скачивания игры"
+
+#: game.twig:29 game.twig:38 game.twig:47 game.twig:72 game.twig:95
+#: game.twig:118 imports/details.twig:19 imports/details.twig:27
+#: imports/details.twig:36 imports/details.twig:63 imports/details.twig:83
+#: imports/details.twig:104
+msgid "Open all Links (Allow Popups)"
+msgstr "Открыть все ссылки (Разрешите всплывающие окна)"
+
+#: game.twig:30 game.twig:39 game.twig:48 game.twig:73 game.twig:96
+#: game.twig:119 imports/details.twig:20 imports/details.twig:28
+#: imports/details.twig:37 imports/details.twig:64 imports/details.twig:84
+#: imports/details.twig:105
+msgid "Copy Links to Clipboard"
+msgstr "Скопировать ссылки в буфер обмена"
+
+#: game.twig:38 game.twig:91 imports/details.twig:27 imports/details.twig:80
+msgid "Patch/Other Download Links"
+msgstr "Ссылки для скачивания патчей/другие"
+
+#: game.twig:47 game.twig:114 imports/details.twig:36 imports/details.twig:101
+msgid "Goodies Download Links"
+msgstr "Ссылки для скачивания бонусов"
+
+#: game.twig:57 game.twig:138 imports/details.twig:47 imports/details.twig:124
+msgid "Game is currently uploading."
+msgstr "Игра в данный момент загружается."
+
+#: game.twig:59 game.twig:140 imports/details.twig:50 imports/details.twig:127
+msgid "Upload hasn't started yet."
+msgstr "Загрузка еще не началась."
+
+#: game.twig:149 imports/details.twig:138
+msgid "Game Items Included"
+msgstr "Включает файлы игры"
+
+#: game.twig:157 imports/details.twig:145
+msgid "Patch/Other Items Included"
+msgstr "Включает патчи/другие файлы"
+
+#: game.twig:165 imports/details.twig:153
+msgid "Goodies Included"
+msgstr "Включает файлы бонусов"
+
+#: imports/card.twig:10 queue.twig:29 queue.twig:44
+msgid "UPDATED"
+msgstr "ОБНОВЛЕНО"
+
+#: imports/card.twig:11 queue.twig:27 queue.twig:38
+msgid "NEW"
+msgstr "НОВАЯ"
+
+#: imports/card.twig:12
+msgid "IN DEV"
+msgstr "В РАЗРАБОТКЕ"
+
+#: imports/card.twig:13 queue.twig:31
+msgid "UPLOADING"
+msgstr "ЗАГРУЖАЕТСЯ"
+
+#: imports/card.twig:18 queue.twig:50
+msgid "Votes:"
+msgstr "Голоса:"
+
+#: imports/card.twig:23
+msgid "Last Update:"
+msgstr "Обновление:"
+
+#: imports/details.twig:162
+msgid "No files found."
+msgstr "Файлы не найдены."
+
+#. You can add newlines if needed.
+#: imports/donate.twig:4
+msgid ""
+"We need your help as this is an ad-free site and will continue to stay that "
+"way.\n"
+"Almost every game found on the site is bought and then provided with updates "
+"when they receive them (updates are checked for on a daily basis). All "
+"donations will support acquiring new games from GOG.com. We accept many "
+"forms of donations:"
+msgstr ""
+"Нам нужна ваша помощь, так как этот сайт без рекламы и будет оставаться "
+"таким.\n"
+"Почти каждая игра, найденная на сайте, покупается, а затем обновляется, "
+"когда выходят обновления (они проверяются ежедневно). Все пожертвования "
+"будут использоваться для приобретения новых игр в GOG.com. Мы принимаем "
+"много видов пожертвований:"
+
+#: imports/donate.twig:16
+msgid "PayPal/Credit & Debit:"
+msgstr "PayPal/Credit & Debit:"
+
+#: imports/donate.twig:17
+msgid "Click here to donate"
+msgstr "Кликни здесь для пожертвования"
+
+#: imports/donate.twig:19
+msgid "Monero (XMR):"
+msgstr "Monero (XMR):"
+
+#: imports/donate.twig:19
+msgid "Copy address to Clipboard"
+msgstr "Скопировать адрес с буфер обмена"
+
+#: imports/donate.twig:19 imports/donate.twig:20 imports/donate.twig:21
+#: imports/donate.twig:22 imports/donate.twig:23
+msgid "QR Code"
+msgstr "QR код"
+
+#: imports/donate.twig:20
+msgid "Bitcoin:"
+msgstr "Bitcoin:"
+
+#: imports/donate.twig:21
+msgid "Bitcoin Cash:"
+msgstr "Bitcoin Cash:"
+
+#: imports/donate.twig:22
+msgid "Litecoin:"
+msgstr "Litecoin:"
+
+#: imports/donate.twig:23
+msgid "Ethereum:"
+msgstr "Ethereum:"
+
+#: imports/donate.twig:24
+msgid "Every Other Cryptocurrency:"
+msgstr "Любая другая криптовалюта:"
+
+#: imports/donate.twig:25
+msgid ""
+"You may also support the site by purchasing a premium account using our "
+"affiliate links below:"
+msgstr ""
+"Вы также можете поддерживать сайт, купив премиум-аккаунт, используя наши "
+"партнерские ссылки ниже:"
+
+#: imports/donate.twig:26
+msgid "Uploaded.net:"
+msgstr "Uploaded.net:"
+
+#: imports/donate.twig:26
+msgid "or"
+msgstr "или"
+
+#: imports/donate.twig:27
+msgid "Share-Online.biz:"
+msgstr "Share-Online.biz:"
+
+#: imports/faq.twig:2
+msgid "What is Good Old Downloads (GOD)?"
+msgstr "Что такое Good Old Downloads (GOD)?"
+
+#: imports/faq.twig:3
+msgid ""
+"Created by mercs213/mercs215 and TwelveCharzz; this is a site which "
+"automates the process of sharing games from %goglink%"
+msgstr ""
+"Созданный mercs213/mercs215 и TwelveCharzz; этот сайт позволяет "
+"автоматизировать процесс совместного использования игр от %goglink%"
+
+#: imports/faq.twig:4
+msgid "How does it work?"
+msgstr "Как это работает?"
+
+#: imports/faq.twig:5
+msgid ""
+"Simply vote on games you want and the site will upload them in the order of "
+"which received the highest number of votes. Games are manually checked each "
+"day for updates then flagged for upload."
+msgstr ""
+"Просто голосуйте за игры, которые вам нравятся, и сайт загрузит их в порядке "
+"наибольшего количество голосов. Игры проверяются вручную каждый день на "
+"обновления, а затем помечаются для загрузки."
+
+#: imports/faq.twig:6
+msgid "Why can't I vote on a game?"
+msgstr "Почему я не могу голосовать за игру?"
+
+#: imports/faq.twig:7
+msgid "The game was recently voted on and re-uploaded."
+msgstr "За игру недавно голосовали и она загружена повторно."
+
+#: imports/faq.twig:8
+msgid "How do I download or extract files?"
+msgstr "Как скачать или распаковать файлы?"
+
+#: imports/faq.twig:9
+msgid ""
+"We recommend %jdownloader2link% to download and %7ziplink% to extract files."
+msgstr ""
+"Мы рекомендуем использовать %jdownloader2link% для скачивания и %7ziplink% "
+"для распаковки файлов."
+
+#: imports/faq.twig:10
+msgid "Which file hosters are free and/or fast?!"
+msgstr "Какие хостеры файлов бесплатны и/или быстры?"
+
+#: imports/faq.twig:11
+msgid ""
+"Google Drive is the best. Next best are Openload.co, zippyshare (only for "
+"files under 500MB), filecloud.io, and Filescdn (register for a free account "
+"there to get better download speed). Just try out the hosters we upload to "
+"and see which is best for you. If you really want to buy a preimum account "
+"from a hoster, we recommend Uptobox. 5$ a year is cheap!"
+msgstr ""
+"Google Drive - лучший. Далее идут Openload.co, zippyshare (только для файлов "
+"до 500 Мб), filecloud.io, и Filscdn (зарегистрируйте бесплатный аккаунт для "
+"лучшей скорости скачивания). Просто пробуйте хостеров, которыми мы "
+"пользуйемся, чтобы найти лучшие для вас. Если вы действительно хотите купить "
+"премиум-аккаунт у хостера, мы рекомендуем Uptobox. 5$ в год - это дешево!"
+
+#: imports/faq.twig:12
+msgid "Do I need \"cracks\" to play the games?"
+msgstr "Мне нужны \"кряки\" для игр?"
+
+#: imports/faq.twig:13
+msgid ""
+"No, every game is DRM-free. Extract the game files, run the setup, install "
+"then play!"
+msgstr ""
+"Нет, все игры здесь без DRM. Распакуйте игровые файлы, запустите установку, "
+"установите и запустите игру!"
+
+#: imports/faq.twig:14
+msgid "What if download links for a game go down?"
+msgstr "Что делать, если ссылки для скачивания не работают?"
+
+#: imports/faq.twig:15
+msgid ""
+"Voting on games is re-enabled after 30 days since they were last uploaded. "
+"You can then vote on games to have them re-uploaded for fresh download links."
+msgstr ""
+"Голосование по играм возобновляется спустя 30 дней с момента их последнего "
+"обновления. После этого вы снова сможете проголосовать за игры, чтобы их "
+"повторно загрузили для получения свежих ссылок на скачивание."
+
+#: imports/faq.twig:16
+msgid "Any plans to upload Mac or Linux games?"
+msgstr "Планируете ли вы загружать игры для Mac или Linux?"
+
+#: imports/faq.twig:17
+msgid ""
+"We will only support Windows with no future plans for other operating "
+"systems. Also we currently plan to upload English installers only."
+msgstr ""
+"Мы будем поддерживать только Windows и у нас нет планов для других "
+"операционных систем. Также в настоящее время мы планируем загружать только "
+"английские инсталляторы игр."
+
+#: imports/faq.twig:18
+msgid "How do the new & updated tags work?"
+msgstr "Как работают теги \"новая\" и \"обновлено\"?"
+
+#: imports/faq.twig:19
+msgid ""
+"When a game (or DLC/goodies) is added/updated; these tags are assigned. They "
+"are cleared from game cards after 7 days have passed from being given the "
+"tag(s)."
+msgstr ""
+"Когда добавляется новая/обновляется старая игра (или DLC/бонусы); "
+"назначаются эти теги. Они убираются с игровых карточек спустя 7 дней после "
+"получения тега(ов)."
+
+#: imports/faq.twig:20
+msgid "Is there a way I can support this site? Do you take donations?"
+msgstr "Есть ли способ поддержать этот сайт? Вы принимаете пожертвования?"
+
+#: imports/faq.twig:21
+msgid ""
+"Yes! Click on \"Donate\" located in the top bar for information on how to "
+"donate to us."
+msgstr ""
+"Да! Нажмите на \"Пожертвование\" расположенное наверху для получения "
+"информации о том, как сделать пожертвование нам."
+
+#: imports/faq.twig:22
+msgid "I am looking for torrents or more games!"
+msgstr "Я ищу торренты или другие игры!"
+
+#: imports/faq.twig:23
+msgid "Check out our other site: %scenegameslink%"
+msgstr "Проверьте наш другой сайт: %scenegameslink%"
+
+#: index.twig:28
+msgid "Browse All Games"
+msgstr "Показать все игры"
+
+#: index.twig:31
+msgid "New Releases"
+msgstr "Новые релизы"
+
+#: index.twig:37
+msgid "Updated"
+msgstr "Обновлено"
+
+#: login.twig:3 login.twig:7 login.twig:11 main.twig:94
+msgid "Login"
+msgstr "Вход"
+
+#: login.twig:9
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: login.twig:10
+msgid "Password"
+msgstr "Пароль"
+
+#: main.twig:58
+msgid "Home"
+msgstr "Домой"
+
+#: main.twig:61
+msgid "Search"
+msgstr "Поиск"
+
+#: main.twig:67
+msgid "Go to SceneGames"
+msgstr "Перейти на сайт SceneGames"
+
+#: main.twig:79
+msgid "Queue"
+msgstr "Очередь"
+
+#: main.twig:80
+msgid "Change Language"
+msgstr "Изменить язык"
+
+#: main.twig:92
+msgid "Monthly Donations:"
+msgstr "Ежемесячные пожертвования"
+
+#: main.twig:97
+msgid "Logout"
+msgstr "Выйти"
+
+#: queue.twig:3 queue.twig:12
+msgid "Upload Queue"
+msgstr "Очередь загрузки"
+
+#: queue.twig:6
+msgid ""
+"Here is the list of games currently in the queue.\n"
+"New games are uploaded first, then updated games, then games ordered by most "
+"votes."
+msgstr ""
+"Это список игр, находящихся в настоящее время в очереди.\n"
+"Сначала загружаются новые игры, затем обновленные игры, а затем игры, "
+"получившие большинство голосов."
+
+#: queue.twig:17
+msgid "Game"
+msgstr "Игра"
+
+#: queue.twig:18
+msgid "Type"
+msgstr "Тип"
+
+#: search.twig:11
+msgid "Search Results"
+msgstr "Результаты поиска"
+
+#: search.twig:13
+msgid "All Games"
+msgstr "Все игры"
+
+#: search.twig:21
+msgid "1 game found for \"%term%\""
+msgid_plural "%totalresults% games found for \"%term%\""
+msgstr[0] "1 игра найднена по запросу \"%term%\""
+msgstr[1] "%totalresults% игр найдено по запросу \"%term%\""
+
+#: search.twig:28
+msgid "Title"
+msgstr "Название"
+
+#: search.twig:29
+msgid "Date"
+msgstr "Дата"
+
+#~ msgid ""
+#~ "If you are using a web browser to download, DO NOT click the blue "
+#~ "download buttons to download from GO4UP.com. Click the dl.go4up.com links."
+#~ msgstr ""
+#~ "Если вы используете веб-браузер для загрузки, НЕ нажимайте синие кнопки "
+#~ "ЗАГРУЗИТЬ для загрузки с сайта GO4UP.com. Нажимайте на ссылки dl.go4up.com"
+
+#~ msgid "Also be aware of fake download buttons/exe files from file hosters!"
+#~ msgstr ""
+#~ "Также будьте внимательны с поддельными кнопками скачивания/exe-файлами от "
+#~ "хостеров файлов!"

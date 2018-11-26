@@ -1,0 +1,129 @@
+{#
+  GOGGames
+  Copyright (C) 2018  GoodOldDownloads
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+{% extends 'main.twig' %}
+
+{% block title %}{{ 'Admin'|trans }}{% endblock title %}
+{% block meta %}{{ loadCSS(['/static/css/admin.css'], []) }}{% endblock meta %}
+{% block content %}
+<div class="container">
+<h1>{{ 'Admin'|trans }}</h1>
+<h3>{{ 'Batch Tag Games:'|trans }}</h3>
+<form id="batch-edit">
+    <input id="batch-file" name="textfile" type="file">
+    <textarea id="batch-textarea" name="slugs" rows="5" class="fullwidth" placeholder="Insert slugs for tagging. One per line."></textarea>
+    <select name="action">
+        <option value="hide">{{ 'Hide'|trans }}</option>
+        <option value="update">{{ 'Update'|trans }}</option>
+        <option value="unhide">{{ 'Unhide'|trans }}</option>
+    </select>
+    <button type="submit" class="btn">{{ 'Batch Tag'|trans }}</button>
+</form>
+<hr>
+<h3>{{ 'Edit Games:'|trans }}</h3>
+<form id="game-edit-options">
+    <select name="limit">
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="30">35</option>
+    </select>
+    <label><b>Search: </b></label>
+    <input type="search" name="search">
+    <label><input type="checkbox" name="showHidden"> {{ 'Show Hidden'|trans }}</label>
+    <p><span data-changes-amount>0</span> unsaved changes. <button type="button" id="saveRows">{{ 'Save'|trans }}</button></p>
+</form>
+<div id="game-edit-table"></div>
+{% trans %}{{ game_amount }} games, {{ game_hidden_amount }} hidden, {{ game_new_amount }} new, {{ game_updated_amount }} updated, {{ game_total_amount }} total.{% endtrans %}
+<hr>
+<h3>{{ 'Update Database:'|trans }}</h3>
+<button id="updateGames">{{ 'Grab New Games and Images from GOG'|trans }}</button>
+<button id="updateImages">{{ 'Grab Images from GOG'|trans }}</button>
+<hr>
+<h3>{{ 'Add game via ID:'|trans }}</h3>
+<form id="addGameViaId" method="post">
+    <input type="number" name="id" value="">
+    <input type="submit" name="add" value="{{ 'Add'|trans }}">
+</form>
+<hr>
+<h3>{{ 'Log:'|trans }}</h3>
+<select multiple="multiple" id="log"></select>
+<hr>
+<h3>{{ 'Donate Settings:'|trans }}</h3>
+<form method="post">
+    Amount: <input type="number" step="any" name="donations_amount" value="{{ donations.amount }}">
+    Goal: <input type="number" step="any" name="donations_goal" value="{{ donations.goal }}">
+    <input type="submit" name="donations_save" value="{{ 'Save'|trans }}">
+</form>
+<hr>
+<h3>{{ 'Edit Notice:'|trans }}</h3>
+<form method="post">
+    <textarea name="notice" rows="5" class="fullwidth">{{ settings.notice }}</textarea>
+    <input type="submit" name="notice_save" value="{{ 'Save'|trans }}">
+</form>
+<hr>
+<h3>{{ 'Other:'|trans }}</h3>
+<p>Deny voting if game has Drive links.</p>
+<form method="post">
+    <select name="disable_drive_voting_value">
+        <option value="0" {{ (disable_drive_voting == false) ? 'selected' : '' }}>Allow Voting</option>
+        <option value="1" {{ (disable_drive_voting == true) ? 'selected' : '' }}>Deny Voting</option>
+    </select>
+    <input type="submit" name="disable_drive_voting" value="{{ 'Save'|trans }}">
+</form>
+<hr>
+<h3>{{ 'Edit Hosters:'|trans }}</h3>
+<p>Have to change <code>host</code> column in <code>files</code> table if id is changed.</p>
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>id</th>
+            <th>name</th>
+            <th>order</th>
+            <th>icon_html</th>
+        </tr>
+    </thead>
+    <tbody id="host-list">
+        {% for host in hosters %}
+            <tr>
+                <td class="txt-center remove"><i class="fas fa-times"></i></td>
+                <td data-id>{{ host.id }}</td>
+                <td data-name>{{ host.name }}</td>
+                <td data-order>{{ host.order }}</td>
+                <td data-icon-html>{{ host.icon_html }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<hr>
+<h3>Search:</h3>
+<form method="post">
+    <input type="submit" name="genres_refresh" value="Refresh Genre List">
+</form>
+<form method="post">
+    <input type="submit" name="reindex_search" value="Reindex Entire Database">
+</form>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+    {{ loadJS(['/static/js/Sortable.min.js'], []) }}
+    {{ loadJS(['/static/js/pikaday.js'], []) }}
+    {{ loadJS(['/static/js/handsontable.min.js'], []) }}
+    {{ loadJS(['/static/js/admin.js'], []) }}
+{% endblock scripts %}

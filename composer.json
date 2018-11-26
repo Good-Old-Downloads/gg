@@ -1,0 +1,11 @@
+{
+    "require": {
+        "slim/slim": "3.0",
+        "slim/twig-view": "^2.3",
+        "twig/extensions": "^1.5",
+        "guzzlehttp/guzzle": "^6.3",
+        "akrabat/rka-ip-address-middleware": "^0.5.0",
+        "elasticsearch/elasticsearch": "^6.0",
+        "emotionloop/visualcaptcha": "^0.0.8"
+    }
+}

@@ -1,0 +1,42 @@
+{#
+  GOGGames
+  Copyright (C) 2018  GoodOldDownloads
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+<h1>{{ 'Donate'|trans }}</h1>
+{% set donate_starter %}
+    {% trans %}
+We need your help as this is an ad-free site and will continue to stay that way.
+Almost every game found on the site is bought and then provided with updates when they receive them (updates are checked for on a daily basis). 
+All donations will support acquiring new games from GOG.com. We accept many forms of donations:
+    {% notes %}
+        You can add newlines if needed.
+    {% endtrans %}
+{% endset %}
+<p>
+{{ donate_starter|nl2br }}
+</p>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+  <input name="cmd" value="_s-xclick" type="hidden">
+  <input name="hosted_button_id" value="AZH3XBTA5WMW6" type="hidden">
+  <p class="inlined"><b>{{ 'PayPal/Credit & Debit Cards:'|trans }}</b>
+  <button type="submit" name="submit" class="btn-link" href>{{ 'Click here to donate'|trans }}</button></p>
+</form>
+<p><b>{{ 'All Cryptocurrencies (Bitcoin, etc.):'|trans }} </b><a href="https://gocps.net/35bp4fphsjg07cot0nphxzirm/">CoinPayments</a></p>
+<p>{{ 'You may also support the site by purchasing a premium account using our affiliate links below:'|trans }}</p>
+<p><b>{{ 'UptoBox:'|trans }}</b> <a href="https://uptobox.com/?op=affiliate&aff_id=10039183" target="_blank">Click me!</a></p>
+<p><b>{{ 'Share-Online.biz:'|trans }}</b> <a href="http://bit.ly/2whoz3k" target="_blank">Click me!</a></p>
+<p><b>1fichier:</b> <a href=" https://1fichier.com/?af=2783083" target="_blank">Click me!</a></p>
+<p><b>{{ 'Uploaded.net:'|trans }}</b> <a href="https://goo.gl/zuejVs" target="_blank">Click me!</a> {{ 'or'|trans }} http://uploaded.net/ref/10614164 (ad-blockers may block these URLs, so copy and paste into your browser if so)</p>

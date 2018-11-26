@@ -1,0 +1,1077 @@
+/*
+  GOGGames
+  Copyright (C) 2018  GoodOldDownloads
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+@import 'font-awesome/fa-regular';
+@import 'font-awesome/fa-solid';
+@import 'font-awesome/fa-brands';
+@import 'font-awesome/fontawesome';
+@import 'mq';
+$mq-breakpoints: (
+  xs: 576px,
+  sm: 768px,
+  md: 992px,
+  lg: 1200px
+);
+@import 'roboto';
+@import 'variables';
+@import 'easings';
+@import 'reboot';
+
+@import 'modal';
+@import 'visualcaptcha';
+
+@mixin no-js() {
+  body.no-js & {
+    @content;
+  }
+}
+
+@mixin asc() {
+  body.ascension & {
+    @content;
+  }
+}
+
+@mixin truncate() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+$navHeight: 60px;
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+}
+
+body {
+  > .container {
+    padding-top: $navHeight+15;
+  }
+  &.ascension {
+    > .container {
+      padding-top: 0;
+    }
+  }
+  &.no-scroll {
+    overflow: hidden !important;
+  }
+  &.no-js {
+    .no-js-hide {
+      display: none !important;
+    }
+  }
+  &:before {
+      display: block;
+      content: '';
+      width: 0;
+      height: 0;
+      position: fixed;
+      background: rgba(0,0,0,0.5);
+    opacity: 0;
+    transition: opacity 150ms ease-out, width 0s linear 150ms, height 0s linear 150ms;
+  }
+  &.dark {
+    &:before {
+      width: 100%;
+      height: 100%;
+      opacity: 1;
+      transition: opacity 150ms ease-out, width 0s linear 0s, height 0s linear 0s;
+    }
+  }
+}
+
+a {
+  font-weight: 400;
+}
+
+.btn {
+  display: inline-block;
+  cursor: pointer;
+  width: auto;
+  min-width: 140px;
+  margin-right: 10px;
+  font-weight: 500;
+  color: #4c4c4c;
+  min-height: 36px;
+  line-height: 36px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 4px;
+  user-select: none;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.25),0 1px 3px rgba(0,0,0,.3);
+  font-size: 13px;
+  background: linear-gradient(to bottom,rgba(217,217,217,1),rgba(204,204,204,1));
+  &:focus {
+    outline: 0;
+  }
+  &.blue {
+    background: linear-gradient(to bottom,#389cdc,#1378d3);
+    color: #fff;
+    &:hover {
+      background: linear-gradient(to bottom,#45a2de,#1480e1);
+    }
+  }
+  &.green {
+    background: linear-gradient(to bottom,#9fbf00,#80ab00);
+    color: #fff;
+    &:hover {
+      background: linear-gradient(to bottom,#b4d800,#80ab00);
+    }
+  }
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+#notice {
+  color: #808080;
+  text-align: center;
+  border-top: #ccc 1px solid;
+  border-bottom: #ccc 1px solid;
+  padding: 15px 0;
+  margin-bottom: 7px;
+  > * {
+    margin: 0;
+  }
+}
+
+.container {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 10px;
+  box-sizing: content-box;
+  overflow: hidden;
+  &.index > h1 {
+    text-align: center;
+    margin: 0;
+    @include mq($from: sm) {
+      margin: 10px 10px;
+      text-align: left;
+    }
+  }
+  &.game {
+    max-width: none;
+    & > .bg {
+      position: absolute;
+      width: 100%;
+      height: 670px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      // background-image is set via page
+      background-repeat: no-repeat;
+      background-position-x: center;
+      background-position-y: top;
+      background-size: auto auto;
+      filter: brightness(1.22);
+    }
+    #game-details {
+      min-height: 0;
+      & > .container {
+        padding-top: 0;
+        &:before, &:after {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+  &.search {
+    .view-changer {
+      float: left;
+      margin-top: auto;
+    }
+  }
+  &.queue {
+    .tag  {
+      font-size: .6rem;
+      font-weight: 400;
+      height: auto;
+      padding: 3px 5px;
+      &.upvote {
+        cursor: pointer;
+        padding: 3px 6px;
+        background: linear-gradient(to bottom,#9fbf00,#80ab00);
+        opacity: 1;
+        transition: opacity 150ms ease-out, margin-right 150ms ease-out, visibility 0s linear 150ms;
+        &.fadeOut {
+          margin-right: -15px;
+          visibility: hidden;
+          opacity: 0;
+        }
+      }
+    }
+  }
+  &.drive-tut {
+    img {
+      width: 100%;
+      @include mq($from: sm) {
+        width: auto;
+      }
+    }
+  }
+}
+
+#navbar {
+  position: fixed;
+  background: rgba(#000,0.9);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $navHeight;
+  box-shadow: 0px 0px 3px 2px rgba(#000,.5);
+  z-index: 50;
+  @include asc() {
+    visibility: hidden;
+    height: 90px;
+    position: static;
+  }
+  .container {
+    display: flex;
+    align-items: center;
+    height: $navHeight;
+    overflow: visible;
+    > div, > a {
+      height: 40px;
+    }
+    > a {
+      display: none;
+      color: #ccc;
+      padding: 0 20px;
+      height: $navHeight;
+      line-height: $navHeight;
+      text-align: center;
+      font-weight: 500;
+      @include mq($from: sm) {
+        display: block;
+      }
+      &:hover {
+        text-decoration: none;
+        color: #fff;
+      }
+    }
+    #logo {
+      position: relative;
+      overflow: hidden;
+      width: 70px;
+      height: $navHeight;
+      img {
+        width: 53px;
+        height: 100%;
+        padding: 0 10px;
+        box-sizing: content-box;
+      }
+    }
+    .othersite {
+      @extend #logo;
+      height: $navHeight;
+    }
+    #search-bar {
+      flex: 1 0;
+      display: flex;
+      align-items: center;
+      color: #7e7e7e;
+      margin-right: 10px;
+      #search-btn {
+        position: relative;
+        width: 40px;
+        height: 25px;
+        cursor: pointer;
+        background: transparent;
+        border: 0;
+        color: #ccc;
+        border-bottom: 1px solid #404040;
+        i {
+          position: absolute;
+          left: 10px;
+          top: 4px;
+        }
+      }
+      input {
+        color: inherit;
+        width: 100%;
+        height: 25px;
+        margin: 10px 0;
+        border: 0;
+        background: transparent;
+        border-bottom: 1px solid #404040;
+        @include mq($from: md) {
+          max-width: 400px;
+        }
+        &::placeholder {
+          color: #7e7e7e;
+        }
+      }
+    }
+    #donate-bar {
+      position: relative;
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: $link-color;
+        z-index: -1;
+      }
+    }
+    .dropdown {
+      @extend a;
+      ul {
+        display: none;
+        margin-left: -20px; // padding
+      }
+      button { // forms in dropdown
+        @extend a;
+        display: inline-block;
+        cursor: pointer;
+        width: auto;
+        border: none;
+        user-select: none;
+        background: none;
+        outline: 0;
+      }
+      &:hover > ul,
+      &.active > ul {
+        display: block;
+        position: absolute;
+        background: rgba(#000,0.9);
+        padding: 0;
+        list-style: none;
+        li {
+          padding: 0 10px;
+          text-align: left;
+          height: 2rem;
+          line-height: 2rem;
+          &:hover {
+            background: #000;
+          }
+        }
+      }
+    }
+  }
+}
+
+/*
+  Modals
+*/
+.modal > .modal__inner > h1 {
+  font-weight: 300;
+}
+#modal-faq + .modal {
+  h3 {
+    margin-bottom: 0;
+  }
+}
+
+#modal-captcha + .modal {
+  .visualCaptcha {
+    margin-bottom: 10px;
+  }
+}
+
+.view-changer {
+  float: right;
+  margin-top: 10px;
+  button {
+    @extend .btn;
+    min-width: auto;
+  }
+}
+
+/* Main Game Thing */
+.game-blocks {
+  // Default is mobile, then .grid-view, then .list-view
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 10px 15px 10px;
+  border-bottom: #ccc 1px solid;
+  .block {
+    position: relative;
+    display: flex;
+    cursor: pointer;
+    width: 100%;
+    margin: 10px 0 0 0;
+    background: #fff;
+    box-shadow: 0 0 3px rgba(25,25,25,0.35);
+    border-radius: 4px;
+    &:hover {
+      opacity: .97;
+      text-decoration: none;
+    }
+    .image {
+      border-radius: 4px 0 0 4px;
+      overflow: hidden;
+      width: 196px;
+      img {
+        width: 100%;
+      }
+    }
+    .info {
+      margin: 6px 6px 0;
+      .title {
+        display: block;
+        font-weight: 500;
+        font-size: .80rem;
+        color: #262626;
+      }
+    }
+    .votes {
+      position: absolute;
+      bottom: 28px;
+      right: 0;
+      align-self: flex-end;
+      color: #f2f2f2;
+      font-size: 0.67rem;
+      height: 17px;
+      padding: 0 6px 0 0;
+      .votes-count {
+        display: inline-block;
+        height: inherit;
+        font-weight: 400;
+        background: #788795;
+        border: 1px solid #8b8b8b;
+        border-radius: 3px;
+        padding: 0 4px;
+      }
+      .upvote {
+        display: inline-block;
+        visibility: visible;
+        height: inherit;
+        margin-left: 3px;
+        padding: 0 12px;
+        border: 1px solid #8b8b8b;
+        border-radius: 3px;
+        background: linear-gradient(to bottom,#9fbf00,#80ab00);
+        opacity: 1;
+        transition: opacity 150ms ease-out, margin-right 150ms ease-out, visibility 0s linear 150ms;
+        &.fadeOut {
+          margin-right: -35px;
+          visibility: hidden;
+          opacity: 0;
+        }
+      }
+    }
+    .date {
+      position: absolute;
+      bottom: 6px;
+      right: 0;
+      margin:  0 6px 0 0;
+      align-self: flex-end;
+      font-weight: 400;
+      border: 1px solid #afafaf;
+      border-radius: 3px;
+      font-size: 0.67rem;
+      padding: 0 4px;
+      color: #000;
+    }
+  }
+
+  &.grid-view {
+    @include mq($from: sm) {
+      flex-direction: row;
+      margin-right: -10px; // negative spacing between each block to make it centered. (did that sentence make sense?)
+      margin-top: -10px; // same
+      .block {
+        &:hover {
+          opacity: .97;
+          text-decoration: none;
+        }
+        @include mq($from: sm) {
+          flex-direction: column;
+          max-width: 196px;
+          height: 200px;
+          margin: 10px 10px 0 0;
+        }
+        .image {
+          @include mq($from: sm) {
+            border-radius: 4px 4px 0 0;
+          }
+          img {
+            @include mq($from: sm) {
+              height: 110px; // hard code height so it looks nicer when loading
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &.list-view {
+    .block {
+      height: 60px;
+      .image {
+        width: 107px;
+        img {
+          height: 100%;
+          width: auto;
+        }
+      }
+    }
+  }
+}
+
+body.dark {
+  .block:before {
+    display: block;
+    content: '';
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    position: absolute;
+    border-radius: 4px;
+    z-index: 2;
+    opacity: 1;
+    transition: opacity 150ms ease-out;
+  }
+  .block:hover:before, .block.light:before {
+    opacity: 0;
+  }
+}
+
+.tag {
+  position: relative;
+  display: inline-block;
+  vertical-align: 2px;
+  padding: 0 3px;
+  font-size: 7px;
+  font-weight: 500;
+  line-height: 10px;
+  color: #fff;
+  background: #999;
+  border-radius: 2px;
+  height: 10px;
+  margin-right: 3px;
+  &.links {
+    background: #5b44b3;
+  }
+  &.new {
+    background: #95b300;
+  }
+  &.updated {
+    background: #4a99ff;
+  }
+  &.indev {
+    background: #bb946e;
+  }
+}
+
+#game-details {
+  width: 100%;
+  position: relative;
+  top: 10px;
+  left: 0;
+  right: 0;
+  margin-right: 10px; // center
+  z-index: 2;
+  min-height: 670px;
+  &.fadein .container:before {
+    opacity: 1;
+    transition: opacity 2500ms $easeOutQuad;
+  }
+  .container {
+    &:before {
+      display: block;
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      opacity: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: -2;
+      background-repeat: no-repeat;
+      background-position-x: center;
+      background-position-y: top;
+      background-size: auto auto;
+      background-color: $body-bg;
+      filter: brightness(1.25);
+    }
+    &:after {
+      display: block;
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      opacity: 1;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: -3;
+      background-color:  $body-bg;
+    }
+    .info {
+      width: 100%;
+      color: $text-muted;
+      margin-bottom: 10px;
+      a {
+        color: $text-muted;
+      }
+    }
+    .close {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      right: 0;
+      width: 50px;
+      height: 50px;
+      margin: 30px;
+      &:before, &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 25px;
+        display: block;
+        background: #212121;
+        width: 2px;
+        height: 100%;
+      }
+      &:before {
+        transform: rotate(45deg);
+      }
+      &:after {
+        transform: rotate(135deg);
+      }
+    }
+    padding: 10px;
+    @include mq($from: md) {
+      padding: 30px;
+    }
+    > h1 {
+      margin: 0;
+      text-align: left;
+      font-weight: 300;
+    }
+    .spinner-wrap {
+      margin: 25px;
+      width: 100%;
+      text-align: center;
+      overflow: hidden;
+    }
+    .items-links-block {
+      width: 100%;
+      overflow: auto;
+      opacity: 0;
+      height: 0;
+      transition: height 200ms ease-out, opacity 150ms ease-out;
+      &.open {
+        // set height from javascript
+        overflow: visible;
+        opacity: 1;
+      }
+      &.calcSize {
+        height: auto;
+        max-height: 500px;
+        visibility: hidden;
+        position: absolute;
+      }
+      @include no-js() {
+        opacity: 1;
+        height: auto;
+      }
+      &:after {
+        clear: both;
+        content: '';
+        display: table;
+      }
+      .items-group > .item-expand-wrap > .item {
+        cursor: pointer; // only for links, not file list
+      }
+    }
+    .items-group {
+      width: 100%;
+      @include mq($from: md) {
+        max-width: 50%;
+        padding-right: 10px;
+        float: left;
+      }
+      .title {
+        font-weight: 500;
+        border-bottom: solid 1px #000;
+        height: 44px;
+        line-height: 45px;
+        padding: 0 10px;
+        display: inline-block;
+        margin-bottom: -1px; // Gotta do repositioning here cause of Edge bug
+      }
+      .clip, .open-all {
+        @extend .title;
+        cursor: pointer;
+        border-bottom: solid 1px transparent;
+        float: right;
+        &:hover {
+          background: rgba(255,255,255,0.15);
+          border-color: rgba(0, 0, 0, 0.1);
+        }
+      }
+      .item {
+        cursor: default;
+        display: block;
+        margin-top: 0;
+        margin-bottom: -1px;  // Gotta do repositioning here cause of Edge bug
+        height: 45px;
+        font-weight: 400;
+        line-height: 41px;
+        padding: 0 10px;
+        border: solid;
+        border-width: 1px 1px 0 1px;
+        transition: border 150ms ease-out, background 150ms ease-out;
+        border-color: rgba(0, 0, 0, 0.1);
+        border-left-color: transparent;
+        border-right-color: transparent;
+        background: transparent;
+        @include truncate;
+        .expand-icon {
+          display: inline-block;
+          line-height: 45px;
+          float: right;
+        }
+        .filename {
+          display: block;
+          @include truncate;
+        }
+        .filesize {
+          display: inline-block;
+          float: right;
+          color: $text-muted;
+        }
+        .drive-bypass-btn {
+          padding: 3px 5px;
+          margin-left: 5px;
+          border-radius: 2px;
+          font-size: .80em;
+          font-weight: 500;
+          min-height: auto;
+          line-height: 1em;
+        }
+        &:last-child {
+          border-width: 1px 1px 1px 1px;
+        }
+        &:hover {
+          background: rgba(255,255,255,0.15);
+          border-width: 1px 1px 1px 1px;
+          border-left-color: rgba(0, 0, 0, 0.1);
+          border-right-color: rgba(0, 0, 0, 0.1);
+        }
+      }
+      .item-expand-wrap {
+        overflow: hidden;
+        width: 100%;
+        transition: border 150ms ease-out, background 150ms ease-out;
+        border: solid;
+        border-width: 1px 1px 0 1px;
+        border-color: rgba(0, 0, 0, 0.1);
+        border-left-color: transparent;
+        border-right-color: transparent;
+        &:last-child {
+          border-width: 1px 1px 1px 1px;
+        }
+        &:hover {
+          background: rgba(255,255,255,0.15);
+          border-left-color: rgba(0, 0, 0, 0.1);
+          border-right-color: rgba(0, 0, 0, 0.1);
+        }
+        & .item {
+          border: 0;
+        }
+        .items-group.expand {
+          padding-right: 0;
+        }
+      }
+      .item-expand-check {
+        display: none;
+        & + .items-group.expand {
+          display: none;
+        }
+        &:checked {
+          & + .items-group.expand {
+            display: block;
+            float: left;
+            max-width: 100%;
+          }
+        }
+      }
+      a.item {
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+    .toggle-changelog {
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 150ms ease-out;
+      &.fadeIn {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+    .changelog {
+      width: 100%;
+      overflow: auto;
+      opacity: 0;
+      height: 0;
+      transition: height 200ms ease-out, opacity 150ms ease-out;
+      &.open {
+        // set height from javascript
+        opacity: 1;
+      }
+      &.calcSize {
+        height: auto;
+        max-height: 400px;
+        visibility: hidden;
+        position: absolute;
+      }
+      &:after {
+        clear: both;
+        content: '';
+        display: table;
+      }
+    }
+  }
+  .bg {
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: top;
+    background-size: auto auto;
+    background-color: transparent;
+    width: inherit;
+    min-height: inherit;
+    filter: brightness(1.25);
+  }
+}
+
+#game-details-bg {
+  @extend #game-details;
+  background: $body-bg;
+  display: none;
+  position: absolute;
+  .bg {
+    opacity: 0;
+    &.fadein {
+      opacity: 1;
+      transition: opacity 2500ms $easeOutQuad;
+    }
+  }
+}
+
+.browse-all {
+  clear: both; // view-changer
+  text-align: center;
+  .btn {
+    padding: 20px 70px;
+    margin: 15px;
+    font-size: 1.6rem;
+  }
+}
+
+/* search page */
+.pagination {
+  text-align: center;
+  margin: 15px 0;
+  .btn {
+    min-width: auto;
+  }
+}
+
+.search-settings {
+  display: flex;
+  width: 100%;
+  display: flex;
+  width: 100%;
+  > .btn {
+    flex: 1;
+    text-align: center;
+    &.drop {
+        &:hover {
+          position: relative;
+          border-radius: 4px 4px 0 0;
+          > ul {
+            display: block;
+          }
+        }
+        > ul {
+          display: none;
+          position: absolute;
+          box-shadow: 1px 0 0 0 rgba(0,0,0,0.25),0px 2px 3px rgba(0,0,0,0.3);
+          top: auto;
+          right: 0;
+          margin: 0;
+          padding: 0;
+          z-index: 1;
+          border-radius: 4px 0px 4px 4px;
+          background: linear-gradient(to bottom,rgba(204,204,204,1), rgba(217,217,217,1)); // reverse gradient
+          > li {
+            list-style: none;
+            a {
+              display: inline-block;
+              width: 100%;
+            }
+          }
+          &:hover {
+            display: block;
+          }
+        }
+    }
+  }
+  @include mq($from: sm) {
+    display: block;
+    float: right;
+    width: auto;
+    > .btn {
+      flex: none;
+      min-width: 100px;
+    }
+  }
+}
+
+/* Admin page */
+#log {
+  width: 100%;
+  min-height: 250px;
+}
+#host-list {
+  .remove {
+    cursor: pointer;
+  }
+}
+
+/* Form Elements */
+textarea, select {
+  border: 0;
+  box-shadow: 0 1px 2px rgba(25,25,25,.35);
+  border-radius: 4px;
+  padding: 5px 10px;
+}
+
+table {
+  width: 100%;
+  background: #fff;
+  margin-bottom: 15px;
+  box-shadow: 0 0 3px rgba(25,25,25,0.35);
+  th, td {
+    padding: 5px 10px;
+    &.txt-center {
+      text-align: center;
+    }
+  }
+  thead {
+    tr {
+      margin-bottom: 5px;
+    }
+    th {
+      font-weight: 500;
+      border-bottom: 1px solid #ccc;
+    }
+  }
+}
+
+/* Helpers */
+.hidden {
+  display: none !important;
+}
+.inlined {
+  display: inline;
+}
+.fullwidth {
+  width: 100%;
+}
+.btn-link {
+  // A button that looks like a link
+  // Make sure you use add an empty href attribute for this to work
+  @extend a;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  background: 0 0;
+  color: $link-color;
+}
+.txt-center {
+  text-align: center;
+}
+.txt-muted {
+  color: $text-muted;
+}
+.txt-red {
+  color: #D00;
+}
+img.img-rounded {
+  border-radius: 4px;
+  box-shadow: -1px 1px 5px rgba(25,25,25,0.35);
+}
+.asc-hidden{
+  @include asc() {
+    display: none;
+  }
+}
+
+.sg-faq-link {
+  color: #efbe00;
+  font-weight: 500;
+  &:hover {
+    color: #efbe00;
+  }
+}
+// Make svg same size as fontawesome icon
+.fac-hoster {
+  text-align: center;
+  width: (20em / 16);
+  max-height: 15px;
+}
+.fa-drive-folder {
+  position: relative;
+  .fa-folder:before {
+    font-size: 18px;
+  }
+  .fa-google-drive:before {
+    position: absolute;
+    font-size: 9px;
+    bottom: 5px;
+    left: 4px;
+  }
+}
+
+// https://github.com/FortAwesome/Font-Awesome/issues/2815
+.fa-stack.fa-fw {
+  font-size: 0.63em;
+}
+
+
+// Responsive helpers
+@each $key, $bp in $mq-breakpoints {
+  @include mq($from: $key) {
+    .hide-from-#{$key}{
+      display: none;
+    }
+  }
+  @include mq($until: $key) {
+    .hide-until-#{$key}{
+      display: none;
+    }
+  }
+}

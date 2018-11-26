@@ -1,0 +1,96 @@
+.modal-state {
+  display: none;
+  &:checked {
+    + .modal {
+      opacity: 1;
+      visibility: visible;
+      .modal__inner {
+        box-sizing: content-box;
+        top: 0;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.modal {
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: left;
+  background: rgba(0,0,0, .5);
+  transition: opacity 200ms ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  z-index: 999;
+  .modal__bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    cursor: pointer;
+  }
+  .modal__inner {
+    transition: top 200ms $ease-out, visibility 200ms $ease-out, opacity 200ms $ease-out;
+    position: absolute;
+    opacity: 0;
+    top: 20%;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 90%;
+    margin: auto;
+    overflow: auto;
+    background: $body-bg;
+    padding: 25px;
+    padding-top: 45px;
+    height: 75%;
+    border-radius: 4px;
+    @include mq($from: md) {
+      left: 50%;
+      right: auto;
+      min-width: 750px;
+      width: auto;
+      transform: translateX(-50%);
+    }
+    &.nopad {
+      padding-top: 10px;
+    }
+    & > h4 {
+      margin: -35px 0 5px 0;
+    }
+    .modal__close {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 20px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      &:after, &:before {
+        content: '';
+        position: absolute;
+        width: 2px;
+        height: 1.5em;
+        background: #ccc;
+        display: block;
+        transform: rotate(45deg);
+        left: 50%;
+        margin: -3px 0 0 -1px;
+        top: 10px;
+      }
+      &:before {
+        transform: rotate(-45deg);
+      }
+      &:hover {
+        &:after, &:before {
+          background: #aaa;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{#
+  GOGGames
+  Copyright (C) 2018  GoodOldDownloads
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+{% extends 'main.twig' %}
+
+{% block title %}{{ 'Google Drive Quota Exceeded Bypass Tutorial'|trans }}{% endblock title %}
+
+{% block content %}
+<div class="container drive-tut">
+    <h1>{{ 'Google Drive Quota Exceeded Bypass Tutorial'|trans }}</h1>
+    <p><b>TL;DR:</b> Click the arrow ( <i class="fas fa-external-link-square-alt"></i> ) to open all Google Drive links -> Go to <a href="https://drive.google.com/drive/shared-with-me">https://drive.google.com/drive/shared-with-me</a> -> Right click and Make a Copy -> Go to My Drive to download the copied file -> Remove file and empty your trash in Google Drive after download to free up cloud storage space to continue for large games.</p>
+    <hr>
+    <p>This tutorial will show you how to bypass the Google Drive download limit for files. This does require a Google account. You can get one for free here: <a href="https://accounts.google.com/SignUp">https://accounts.google.com/SignUp</a></p>
+    <p>
+        <span class="txt-red"><b>Please be aware:</b> Google has implemented a user quota (or reduced) for the "Make a copy" option this tutorial uses to bypass file download quota. If your trash is empty and you recieve an error when making a copy of a file, you must create a new Google account and continue using the bypass or wait until your "Make a copy" quota resets (unknown amount of time until it resets -- it does seem to reset every day from our testing).</span>
+    </p>
+    <h3>This is the error we want to bypass:</h3>
+    <p>
+        <img class="img-rounded" src="/static/img/drive_tutorial/error.png">
+    </p>
+
+    <h3>Steps to bypass:</h3>
+    <ol>
+        <li><p>First you must visit each Google Drive URL in your browser of the file(s) you want to make a copy of. This will make them appear in the "Shared with me" section of your Google Drive. The easiest way to do this with large games is to allow pop-ups for our site, then click the "Open all links" arrow.</p></li>
+            <br><img class="img-rounded" src="/static/img/drive_tutorial/open-all-links.PNG"></p></li>
+        <li><p>Now go to <a href="https://drive.google.com/drive/shared-with-me">https://drive.google.com/drive/shared-with-me</a>. You will see the files we visited in the previous step which you can now click and select. If they are not listed, refresh the page and also make sure you have visited the URLs in your browser (see previous step)!</p></li>
+        <li><p>Next right click while your files are selected and choose <b>MAKE A COPY</b> from the drop down menu. <b>DO NOT SELECT DOWNLOAD.</b>
+            <br><span class="txt-red"><br><b></b>Please note that free Google accounts only have 15GB of cloud storage.</b></span>
+            <br><span class="txt-red"><b></b>If a game is very large, you will have to download then remove the parts of the game you made a copy of from your Google Drive and repeat these steps (see step 7 and 8 on how to remove and delete files from your Google Drive) until you have all required files downloaded to install the game!<b></b></span></p></li>
+          <br><img class="img-rounded" src="/static/img/drive_tutorial/step1and2.png"></p></li>
+        <li><p>Next click "My Drive" found on the left hand side.<br><img class="img-rounded" src="/static/img/drive_tutorial/step3.png"></p></li>
+        <li><p>The items can now be found in your Google Drive.</p></li>
+        <li><p>Right click on the item you want to download, then select "Download" in the drop down menu.
+            <br><span class="txt-muted">For larger files, we recommend you download each one individually as Google will take time to zip the files if you select them all and try to download.</span><br><img class="img-rounded" src="/static/img/drive_tutorial/step4and5.png"></p></li>
+        <li><p>After your download finishes, you should remove the copies from your Google Drive to free up space in the event you need to do this bypass again (or need to copy and download additional files for larger games).
+            <br>You can do this by selecting the copies you want to delete, then right click and select "Remove" at the bottom of the drop down menu.<br><img class="img-rounded" src="/static/img/drive_tutorial/step6.png"></p></li>
+        <li><p>Finally delete the copies from your trash. Click "Trash" found on the left hand side then click the "Trash" at the top and select "Empty Trash".<br><img class="img-rounded" src="/static/img/drive_tutorial/step7.png"></p></li>
+    </ol>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+{% endblock scripts %}

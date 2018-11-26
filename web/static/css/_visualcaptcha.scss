@@ -1,0 +1,135 @@
+/*! visualCaptcha - v0.0.8 - 2016-01-23
+* http://visualcaptcha.net
+* Copyright (c) 2016 emotionLoop; Licensed MIT */
+
+/*---------------------------------------------------
+    LESS Elements 0.9
+  ---------------------------------------------------
+    A set of useful LESS mixins
+    More info at: http://lesselements.com
+  ---------------------------------------------------*/
+.visualCaptcha {
+  min-height: 120px;
+}
+.visualCaptcha * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.visualCaptcha .audioField {
+  font-size: 15px;
+  color: #495e62;
+  font-weight: 100;
+  padding: 5px;
+  border: 1px solid #3bb6e4;
+  height: 40px;
+  width: 100%;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.accessibility-description,
+.visualCaptcha-explanation,
+.status.valid {
+  padding: 10px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: 100;
+  margin: 20px 0 24px;
+}
+.visualCaptcha-possibilities,
+.visualCaptcha-refresh-button,
+.visualCaptcha-accessibility-button,
+.visualCaptcha-button-group {
+  display: inline-block;
+}
+.visualCaptcha-possibilities {
+  vertical-align: middle;
+}
+.visualCaptcha-possibilities .img {
+  border: 3px solid transparent;
+  padding: 5px;
+  display: inline-block;
+}
+.visualCaptcha-possibilities img {
+  width: auto;
+  height: 45px;
+  z-index: 5;
+  transition: all 200ms;
+  -webkit-transition: all 200ms;
+}
+.visualCaptcha-possibilities img:hover {
+  cursor: pointer;
+}
+.visualCaptcha-possibilities .visualCaptcha-selected {
+  background-color: #cdbbf0;
+  border-radius: 4px;
+  border: 3px dashed #7f4fdb;
+}
+.visualCaptcha-refresh-button a {
+    min-width: auto;
+}
+.visualCaptcha-refresh-button img {
+  width: 16px;
+  height: 16px;
+}
+.visualCaptcha-refresh-button:hover {
+  cursor: pointer;
+}
+.visualCaptcha-accessibility-button {
+  padding: 9px 10px 7px;
+  border: 1px solid black;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+}
+.visualCaptcha-accessibility-button img {
+  width: 16px;
+  height: 16px;
+}
+.visualCaptcha-accessibility-button:hover {
+  cursor: pointer;
+}
+/* Animations for hiding/showing accessibility option and images */
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+div.visualCaptcha .visualCaptcha-show {
+  -webkit-animation: fadeIn 300ms;
+  animation: fadeIn 300ms;
+}
+div.visualCaptcha .visualCaptcha-hide {
+  display: none !important;
+  -webkit-animation: fadeOut 300ms;
+  animation: fadeOut 300ms;
+}

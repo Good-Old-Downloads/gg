@@ -1,0 +1,153 @@
+{#
+  GOGGames
+  Copyright (C) 2018  GoodOldDownloads
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+{% verbatim %}
+<script id="tpl-details" type="text/template">
+  <div id="game-details">
+    <div class="container index">
+      {{#loading}}
+        <div class="spinner-wrap">
+          <i class="fas fa-6x fa-spinner fa-spin text-center"></i>
+        </div>
+      {{/loading}}
+      {{^loading}}
+        <div class="close"></div>
+        <h1>{{ title }} <a href="{{ url }}" target="_blank" title="{% endverbatim %}{{ 'Go to GOG Store'|trans }}{% verbatim %}"><i class="fas fa-shopping-cart"></i></a> <a href="https://www.gogdb.org/product/{{ id }}" target="_blank" title="{% endverbatim %}{{ 'Go to GOGDB'|trans }}{% verbatim %}"><i class="fas fa-database"></i></a></h1>
+        <div class="info"><a href="/search/all/1/title/asc/{{#uriencode}}{{ category }}{{/uriencode}}">{{ category }}</a> | <a href="/search/all/1/title/asc/any/{{#uriencode}}{{ developer }}{{/uriencode}}">{{ developer }}</a></div>
+        <button class="btn blue toggle-links">{% endverbatim %}{{ 'DOWNLOAD'|trans }}{% verbatim %}</button>
+        <button class="btn green no-js-hide __vote-modal-trigger {{^can_vote}}hidden{{/can_vote}}" data-id="{{ id }}">{% endverbatim %}{{ 'VOTE FOR RE-UPLOAD'|trans }}{% verbatim %}</button>
+        <button class="btn toggle-changelog">{% endverbatim %}{{ 'CHANGELOG'|trans }}{% verbatim %}</button>
+        <div class="items-links-block">
+          {{#links}}
+            <div class="items-group">
+              <div class="title">{% endverbatim %}{{ 'Game Download Links'|trans }}{% verbatim %}</div>
+              {{#GAME}}
+              <div class="item-expand-wrap">
+                <div class="open-all no-js-hide" title="{% endverbatim %}{{ 'Open all Links (Allow Popups)'|trans }}{% verbatim %}"><i class="fas fa-external-link-square-alt"></i></div>
+                <div class="clip no-js-hide" title="{% endverbatim %}{{ 'Copy Links to Clipboard'|trans }}{% verbatim %}"><i class="fas fa-copy"></i></div>
+                  <label class="item" for="{{slug}}_game" title="{{name}}">
+                    <i class="fas fa-plus expand-icon" title="{% endverbatim %}{{ 'Show Download Links'|trans }}{% verbatim %}" data-toggled-text="{% endverbatim %}{{ 'Hide Download Links'|trans }}{% verbatim %}"></i>
+                    {{{icon}}}
+                    <span> {{name}}{{#showdrivetut}}{{slug}}{{/showdrivetut}}</span>
+                  </label>
+                  <input class="item-expand-check" id="{{slug}}_game" type="checkbox">
+                  <div class="items-group expand">
+                    {{#links}}
+                      <a class="item" title="{{link}}" href="{{link}}" target="_blank">{{name}}</a>
+                    {{/links}}
+                  </div>
+                </div>
+              {{/GAME}}
+            </div>
+            {{#PATCHES.length}}
+            <div class="items-group">
+              <div class="title">{% endverbatim %}{{ 'Patch/Other Download Links'|trans }}{% verbatim %}</div>
+              {{#PATCHES}}
+              <div class="item-expand-wrap">
+                <div class="open-all no-js-hide" title="{% endverbatim %}{{ 'Open all Links (Allow Popups)'|trans }}{% verbatim %}"><i class="fas fa-external-link-square-alt"></i></div>
+                <div class="clip no-js-hide" title="{% endverbatim %}{{ 'Copy Links to Clipboard'|trans }}{% verbatim %}"><i class="fas fa-copy"></i></div>
+                <label class="item" for="{{slug}}_patches" title="{{name}}">
+                  <i class="fas fa-plus expand-icon" title="{% endverbatim %}{{ 'Show Download Links'|trans }}{% verbatim %}" data-toggled-text="{% endverbatim %}{{ 'Hide Download Links'|trans }}{% verbatim %}"></i>
+                  {{{icon}}}
+                  <span> {{name}}{{#showdrivetut}}{{slug}}{{/showdrivetut}}</span>
+                </label>
+                <input class="item-expand-check" id="{{slug}}_patches" type="checkbox">
+                <div class="items-group expand">
+                  {{#links}}
+                    <a class="item" title="{{link}}" href="{{link}}" target="_blank">{{name}}</a>
+                  {{/links}}
+                </div>
+              </div>
+              {{/PATCHES}}
+            </div>
+            {{/PATCHES.length}}
+            {{#GOODIES.length}}
+            <div class="items-group">
+              <div class="title">{% endverbatim %}{{ 'Goodies Download Links'|trans }}{% verbatim %}</div>
+              {{#GOODIES}}
+              <div class="item-expand-wrap">
+                <div class="open-all no-js-hide" title="{% endverbatim %}{{ 'Open all Links (Allow Popups)'|trans }}{% verbatim %}"><i class="fas fa-external-link-square-alt"></i></div>
+                <div class="clip no-js-hide" title="{% endverbatim %}{{ 'Copy Links to Clipboard'|trans }}{% verbatim %}"><i class="fas fa-copy"></i></div>
+                <label class="item" for="{{slug}}_goodies" title="{{name}}">
+                  <i class="fas fa-plus expand-icon" title="{% endverbatim %}{{ 'Show Download Links'|trans }}{% verbatim %}" data-toggled-text="{% endverbatim %}{{ 'Hide Download Links'|trans }}{% verbatim %}"></i>
+                  {{{icon}}}
+                  <span> {{name}}{{#showdrivetut}}{{slug}}{{/showdrivetut}}</span>
+                </label>
+                <input class="item-expand-check" id="{{slug}}_goodies" type="checkbox">
+                <div class="items-group expand">
+                  {{#links}}
+                    <a class="item" title="{{link}}" href="{{link}}" target="_blank">{{name}}</a>
+                  {{/links}}
+                </div>
+              </div>
+              {{/GOODIES}}
+            </div>
+            {{/GOODIES.length}}
+          {{/links}}
+          {{^links}}
+            <div class="items-group">
+              {{#uploading}}
+                <div class="item">{% endverbatim %}{{ "Game is currently uploading."|trans }}{% verbatim %}</div>
+              {{/uploading}}
+              {{^uploading}}
+                <div class="item">{% endverbatim %}{{ "Upload hasn't started yet."|trans }}{% verbatim %}</div>
+              {{/uploading}}
+            </div>
+          {{/links}}
+        </div>
+
+        <div class="changelog"></div>
+
+        {{#files}}
+          <div class="items-group">
+            <div class="title">{% endverbatim %}{{ 'Game Items Included'|trans }}{% verbatim %}</div>
+            {{#GAME}}
+            <div class="item"><span class="filesize">{{#formatSize}}{{size}}{{/formatSize}}</span><span class="filename">{{name}}</span></div>
+            {{/GAME}}
+          </div>
+          {{#PATCHES.length}}
+          <div class="items-group">
+            <div class="title">{% endverbatim %}{{ 'Patch/Other Items Included'|trans }}{% verbatim %}</div>
+            {{#PATCHES}}
+            <div class="item"><span class="filesize">{{#formatSize}}{{size}}{{/formatSize}}</span><span class="filename">{{name}}</span></div>
+            {{/PATCHES}}
+          </div>
+          {{/PATCHES.length}}
+          {{#GOODIES.length}}
+          <div class="items-group">
+            <div class="title">{% endverbatim %}{{ 'Goodies Included'|trans }}{% verbatim %}</div>
+            {{#GOODIES}}
+            <div class="item"><span class="filesize">{{#formatSize}}{{size}}{{/formatSize}}</span><span class="filename">{{name}}</span></div>
+            {{/GOODIES}}
+          </div>
+          {{/GOODIES.length}}
+        {{/files}}
+        {{^files}}
+          <div class="items-group">
+            <div class="item">{% endverbatim %}{{ 'No files found.'|trans }}{% verbatim %}</div>
+          </div>
+        {{/files}}
+      {{/loading}}
+    </div>
+    <div class="bg"></div>
+  </div>
+</script>
+
+<div id="game-details-bg">
+  <div class="bg"></div>
+</div>
+{% endverbatim %}

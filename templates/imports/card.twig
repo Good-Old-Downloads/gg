@@ -1,0 +1,48 @@
+{#
+  GOGGames
+  Copyright (C) 2018  GoodOldDownloads
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+{% macro input(games, elastic) %}
+  {% if elastic %}
+    {% set games = games.hits %}
+  {% endif %}
+  {% spaceless %}
+  {% for game in games %}
+    {% if elastic %}
+      {% set game_id = game._id %}
+      {% set game = game._source %}
+    {% else %}
+      {% set game_id = game.id %}
+    {% endif %}
+    <a class="block" href="/game/{{ game.slug }}" data-id="{{ game_id }}">
+      <div class="image">
+        <img src="/static/img/games/thumb/{{ game_id }}.jpg">
+      </div>
+      <div class="info">
+        <span class="title">{{ game.title }}</span>
+        {% if game.updated %}<span class="tag updated">{{ 'UPDATED'|trans }}</span>{% endif %}
+        {% if game.new %}<span class="tag new">{{ 'NEW'|trans }}</span>{% endif %}
+        {% if game.indev %}<span class="tag indev">{{ 'IN DEV'|trans }}</span>{% endif %}
+        {% if game.uploading %}<span class="tag uploading">{{ 'UPLOADING'|trans }}</span>{% endif %}
+      </div>
+      {# Don't show if last upload was less than 30 days ago #}
+      <div class="date">
+        {{ 'Last Update:'|trans }} <span data-moment="epoch" data-format="fromnow" data-time="{{ game.last_update }}"></span>
+      </div>
+    </a>
+  {% endfor %}
+  {% endspaceless %}
+{% endmacro %}

@@ -1,0 +1,157 @@
+{#
+  GOGGames
+  Copyright (C) 2018  GoodOldDownloads
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+{% extends 'main.twig' %}
+
+{% block title %}{{ game.title }}{% endblock title %}
+{% set game = game[0] %}
+
+{% block meta %}
+<meta property="og:title" content="{{ game.title }}">
+<meta property="og:image" content="{{ base_url() }}/static/img/games/thumb/{{ game.id }}.jpg">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="196">
+<meta property="og:image:height" content="110">
+<meta property="description" content="Download {{ game.title }} GOG for free with direct links.">
+<meta property="og:description" content="Download {{ game.title }} GOG for free with direct links.">
+<style nonce="{{ nonce.style }}">.container.game>.bg{background-image: url(/static/img/games/bg/{{ game.id }}.jpg) !important;}</style>
+<script nonce="{{ nonce.script }}">dank = "{{ game.dank }}";memes = {{ game.memes }};</script> {# Load as fast as possible #}
+{% endblock meta %}
+
+{% block content %}
+{% import "imports/card.twig" as card %}
+<div class="container game" data-id="{{ game.id }}">
+    <div class="bg"></div>
+  <div id="game-details">
+    <div class="container index">
+        <h1>{{ game.title }} <a href="{{ game.url }}" target="_blank" title="{{ 'Go to GOG Store'|trans }}"><i class="fas fa-shopping-cart"></i></a> <a href="https://www.gogdb.org/product/{{ game.id }}" target="_blank" title="{{ 'Go to GOGDB'|trans }}"><i class="fas fa-database"></i></a></h1>
+        <div class="info"><a href="/search/all/1/title/asc/{{ game.category|lower|url_encode }}">{{ game.category }}</a> | <a href="/search/all/1/title/asc/any/{{ game.developer|lower|url_encode }}">{{ game.developer }}</a></div>
+        <button class="btn blue toggle-links no-js-hide">{{ 'DOWNLOAD'|trans }}</button>
+        <button class="btn green no-js-hide __vote-modal-trigger {% if game.can_vote == false %}hidden{% endif %}" data-id="{{ game.id }}">{{ 'VOTE FOR RE-UPLOAD'|trans }}</button>
+        <button class="btn toggle-changelog">{{ 'CHANGELOG'|trans }}</button>
+        <div class="items-links-block">
+            {% if game.links.GAME %}
+                <div class="items-group">
+                    <div class="title">{{ 'Game Download Links'|trans }}</div>
+                    {% for host in game.links.GAME %}
+                        <div class="item-expand-wrap">
+                            {% spaceless %}
+                            <div class="open-all no-js-hide" title="{{ 'Open all Links (Allow Popups)'|trans }}"><i class="fas fa-external-link-square-alt"></i></div>
+                            <div class="clip no-js-hide" title="{{ 'Copy Links to Clipboard'|trans }}"><i class="fas fa-copy"></i></div>
+                            <label class="item" for="{{ host.slug }}_game" title="{{ host.name }}">
+                                <i class="fas fa-plus expand-icon" title="{{ 'Show Download Links'|trans }}" data-toggled-text="{{ 'Hide Download Links'|trans }}"></i>
+                                {{ host.icon|raw }}
+                                <span> {{ host.name }} {% if (host.slug == 'gdrive') or (host.slug == 'gdrive_folder') %}<a class="btn drive-bypass-btn" href="/google-drive-bypass-tutorial" target="_blank" title='BYPASS GOOGLE DRIVE QUOTA TUTORIAL'>BYPASS GOOGLE DRIVE QUOTA TUTORIAL</a>{% endif %}</span>
+                            </label>
+                            {% endspaceless %}
+                            <input class="item-expand-check" id="{{ host.slug }}_game" type="checkbox">
+                            <div class="items-group expand">
+                                {% for link in host.links %}
+                                    <a class="item" title="{{ link.link }}" href="{{ link.link }}" target="_blank">{{ link.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if game.links.PATCHES %}
+                <div class="items-group">
+                    <div class="title">{{ 'Patch/Other Download Links'|trans }}</div>
+                    {% for host in game.links.PATCHES %}
+                        <div class="item-expand-wrap">
+                            {% spaceless %}
+                            <div class="open-all no-js-hide" title="{{ 'Open all Links (Allow Popups)'|trans }}"><i class="fas fa-external-link-square-alt"></i></div>
+                            <div class="clip no-js-hide" title="{{ 'Copy Links to Clipboard'|trans }}"><i class="fas fa-copy"></i></div>
+                            <label class="item" for="{{ host.slug }}_patches" title="{{ host.name }}">
+                                <i class="fas fa-plus expand-icon" title="{{ 'Show Download Links'|trans }}" data-toggled-text="{{ 'Hide Download Links'|trans }}"></i>
+                                {{ host.icon|raw }}
+                                <span> {{ host.name }} {% if (host.slug == 'gdrive') or (host.slug == 'gdrive_folder') %}<a class="btn drive-bypass-btn" href="/google-drive-bypass-tutorial" target="_blank" title='BYPASS GOOGLE DRIVE QUOTA TUTORIAL'>BYPASS GOOGLE DRIVE QUOTA TUTORIAL</a>{% endif %}</span>
+                            </label>
+                            {% endspaceless %}
+                            <input class="item-expand-check" id="{{ host.slug }}_patches" type="checkbox">
+                            <div class="items-group expand">
+                                {% for link in host.links %}
+                                    <a class="item" title="{{ link.link }}" href="{{ link.link }}" target="_blank">{{ link.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if game.links.GOODIES %}
+                <div class="items-group">
+                    <div class="title">{{ 'Goodies Download Links'|trans }}</div>
+                    {% for host in game.links.GOODIES %}
+                        <div class="item-expand-wrap">
+                            {% spaceless %}
+                            <div class="open-all no-js-hide" title="{{ 'Open all Links (Allow Popups)'|trans }}"><i class="fas fa-external-link-square-alt"></i></div>
+                            <div class="clip no-js-hide" title="{{ 'Copy Links to Clipboard'|trans }}"><i class="fas fa-copy"></i></div>
+                            <label class="item" for="{{ host.slug }}_goodies" title="{{ host.name }}">
+                                <i class="fas fa-plus expand-icon" title="{{ 'Show Download Links'|trans }}" data-toggled-text="{{ 'Hide Download Links'|trans }}"></i>
+                                {{ host.icon|raw }}
+                                <span> {{ host.name }} {% if (host.slug == 'gdrive') or (host.slug == 'gdrive_folder') %}<a class="btn drive-bypass-btn" href="/google-drive-bypass-tutorial" target="_blank" title='BYPASS GOOGLE DRIVE QUOTA TUTORIAL'>BYPASS GOOGLE DRIVE QUOTA TUTORIAL</a>{% endif %}</span>
+                            </label>
+                            {% endspaceless %}
+                            <input class="item-expand-check" id="{{ host.slug }}_goodies" type="checkbox">
+                            <div class="items-group expand">
+                                {% for link in host.links %}
+                                    <a class="item" title="{{ link.link }}" href="{{ link.link }}" target="_blank">{{ link.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if game.links == false %}
+                <div class="items-group">
+                  {% if game.uploading %}
+                    <div class="item">{{ "Game is currently uploading."|trans }}</div>
+                  {% else %}
+                    <div class="item">{{ "Upload hasn't started yet."|trans }}</div>
+                  {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="changelog"></div>
+        {% if game.files.GAME %}
+            <div class="items-group">
+                <div class="title">{{ 'Game Items Included'|trans }}</div>
+                {% for file in game.files.GAME %}
+                   <div class="item"><span class="filesize">{{ file.size ? file.size|convertBytes : '' }}</span><span class="filename">{{ file.name }}</span></div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if game.files.PATCHES %}
+            <div class="items-group">
+                <div class="title">{{ 'Patch/Other Items Included'|trans }}</div>
+                {% for file in game.files.PATCHES %}
+                   <div class="item"><span class="filesize">{{ file.size ? file.size|convertBytes : '' }}</span><span class="filename">{{ file.name }}</span></div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if game.files.GOODIES %}
+            <div class="items-group">
+                <div class="title">{{ 'Goodies Included'|trans }}</div>
+                {% for file in game.files.GOODIES %}
+                   <div class="item"><span class="filesize">{{ file.size ? file.size|convertBytes : '' }}</span><span class="filename">{{ file.name }}</span></div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

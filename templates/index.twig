@@ -1,0 +1,55 @@
+{#
+  GOGGames
+  Copyright (C) 2018  GoodOldDownloads
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+{% extends 'main.twig' %}
+
+{% block content %}
+{% import "imports/card.twig" as card %}
+{% include "imports/details.twig" %}
+
+<div class="container index">
+  {% if notice %}
+    <div id="notice">
+      {{ notice|raw }}
+    </div>
+  {% endif %}
+  <div class="view-changer hide-until-sm">
+    <form method="post">
+      <button type="submit" value="grid" name="setview"><i class="fas fa-fw fa-th"></i></button>
+      <button type="submit" value="list" name="setview"><i class="fas fa-fw fa-th-list"></i></button>
+    </form>
+  </div>
+  <div class="browse-all">
+    <a href="/search/all" class="btn blue">{{ 'Browse All Games'|trans }}</a>
+  </div>
+  {% if new != null %}
+  <h1>{{ 'New Releases'|trans }}</h1>
+  <div class="game-blocks {% if game_view == 'list' %}list-view{% else %}grid-view{% endif %}">
+    {{ card.input(new) }}
+  </div>
+  {% endif %}
+  {% if updated != null %}
+  <h1>{{ 'Updated'|trans }}</h1>
+  <div class="game-blocks {% if game_view == 'list' %}list-view{% else %}grid-view{% endif %}">
+    {{ card.input(updated) }}
+  </div>
+  {% endif %}
+</div>
+{% endblock content %}
+
+{% block scripts %}
+{% endblock scripts %}

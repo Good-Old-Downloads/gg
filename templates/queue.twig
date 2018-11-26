@@ -1,0 +1,76 @@
+{#
+  GOGGames
+  Copyright (C) 2018  GoodOldDownloads
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+{% extends 'main.twig' %}
+
+{% block title %}{{ 'Upload Queue'|trans }}{% endblock title %}
+
+{% set queue_starter %}
+{% trans %}Here is the list of games currently in the queue.
+New games are uploaded first, then updated games, then games ordered by most votes.{% endtrans %}
+{% endset %}
+
+{% block content %}
+<div class="container queue">
+    <h1>{{ 'Upload Queue'|trans }}</h1>
+    <p>{{ queue_starter|nl2br }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>{{ 'Game'|trans }}</th>
+                <th class="txt-center">{{ 'Type'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in uploading %}
+            <tr>
+                <td><a href="/game/{{ game.slug }}">{{ game.title }}</a></td>
+                <td class="txt-center">
+                    {% if game.new %}
+                        <span class="tag new">{{ 'NEW'|trans }}</span>
+                    {% elseif game.updated %}
+                        <span class="tag updated">{{ 'UPDATED'|trans }}</span>
+                    {% endif %}
+                    <span class="tag uploading">{{ 'UPLOADING'|trans }}</span>
+                </td>
+            </tr>
+            {% endfor %}
+            {% for game in new %}
+            <tr>
+                <td><a href="/game/{{ game.slug }}">{{ game.title }}</a></td>
+                <td class="txt-center"><span class="tag new">{{ 'NEW'|trans }}</span></td>
+            </tr>
+            {% endfor %}
+            {% for game in updated %}
+            <tr>
+                <td><a href="/game/{{ game.slug }}">{{ game.title }}</a></td>
+                <td class="txt-center"><span class="tag updated">{{ 'UPDATED'|trans }}</span></td>
+            </tr>
+            {% endfor %}
+            {% for game in votes %}
+            <tr>
+                <td><a href="/game/{{ game.slug }}">{{ game.title }}</a></td>
+                <td class="txt-center"><span class="tag voted">{{ 'Votes:'|trans }} <span class="num">{{ game.votes }}</span></span>{% if game.has_voted == 0 %}<span class="tag upvote __vote-modal-trigger" data-id="{{ game.id }}">+</span>{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+{% endblock scripts %}

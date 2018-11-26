@@ -1,0 +1,80 @@
+{#
+  GOGGames
+  Copyright (C) 2018  GoodOldDownloads
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+{% extends 'main.twig' %}
+
+{% block title %}{% if all == false %}{{ term }}{% endif %}{% endblock title %}
+
+{% block content %}
+{% import "imports/card.twig" as card %}
+{% include "imports/details.twig" %}
+
+<div class="container search">
+  {% set term = term|e %}
+  {% if all == false %}
+  <h1>{{ 'Search Results'|trans }}</h1>
+  {% else %}
+  <h1>{% if developer %}{{ games.hits[0]._source.developer }}{% elseif pagination.genre != 'any' and term == 'all' %}{{ pagination.genre }}{% else %}{{ 'All Games'|trans }}{% endif %}</h1>
+  {% endif %}
+  {% if total > 0 %}
+    {% import "pagination.twig" as pager %}
+  <p>
+    {% if all == false %}
+      {% trans %}
+        1 game found for "{{ term }}"
+      {% plural total %}
+        {{ total }} games found for "{{ term }}"
+      {% endtrans %}
+    {% endif %}
+  </p>
+  <div class="search-settings">
+    <div class="btn drop">
+      <div>{% if pagination.sort is empty %}Sort{% else %}{{ pagination.sort|capitalize }}{% endif %} <i class="fas fa-caret-down"></i></div>
+      <ul class="btn">
+        <li><a href="/search/{{ pagination.path }}/{{ pagination.page }}/title/{% if pagination.sortby == 'asc' %}desc{% else %}asc{% endif %}/{{ pagination.genre|lower }}"/>{{ 'Title'|trans }}{% if pagination.sort == 'title' %} {% if pagination.sortby == 'asc' %}<i class="fas fa-angle-up"></i>{% else %}<i class="fas fa-angle-down"></i>{% endif %}{% endif %}</a></li>
+        <li><a href="/search/{{ pagination.path }}/{{ pagination.page }}/date/{% if pagination.sortby == 'asc' %}desc{% else %}asc{% endif %}/{{ pagination.genre|lower }}"/>{{ 'Date'|trans }}{% if pagination.sort == 'date' %} {% if pagination.sortby == 'asc' %}<i class="fas fa-angle-up"></i>{% else %}<i class="fas fa-angle-down"></i>{% endif %}{% endif %}</a></li>
+      </ul>
+    </div>
+    <div class="btn drop">
+      <div>{% if pagination.genre == 'any' %}Genre{% else %}{{ pagination.genre }}{% endif %} <i class="fas fa-caret-down"></i></div>
+      <ul class="btn">
+        <li><a href="/search/{{ pagination.path }}/{{ pagination.page }}/{{ pagination.sort }}/{{ pagination.sortby }}/any/">Any</a></li>
+        {% for genre in genres %}
+          <li><a href="/search/{{ pagination.path }}/{{ pagination.page }}/{{ pagination.sort }}/{{ pagination.sortby }}/{{ genre|lower }}/">{{ genre }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="view-changer hide-until-sm">
+    <form method="post">
+      <button type="submit" value="grid" name="setview"><i class="fas fa-th"></i></button>
+      <button type="submit" value="list" name="setview"><i class="fas fa-th-list"></i></button>
+    </form>
+  </div>
+  {{ pager.input(pagination, '/search/' ~ pagination.path) }}
+  <div class="game-blocks {% if game_view == 'list' %}list-view{% else %}grid-view{% endif %}">
+    {{ card.input(games, elastic) }}
+  </div>
+  {{ pager.input(pagination, '/search/' ~ pagination.path) }}
+  {% else %}
+  <div class="txt-center"><i class="far fa-8x fa-frown"></i></div>
+  {% endif %}
+</div>
+{% endblock content %}
+
+{% block scripts %}
+{% endblock scripts %}
