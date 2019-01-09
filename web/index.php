@@ -65,7 +65,7 @@ function getGame($id, $ipAddress) {
     $cipher = new Vigenere();
     // Prepare SQL query
     $get = $dbh->prepare("
-        SELECT `id`, `title`, `slug`, `url`, `developer`, `publisher`, `category`, `uploading`, `last_upload`, COUNT(`id`) as `votes`
+        SELECT `id`, `title`, `slug`, `thumb_id`, `bg_id`, `url`, `developer`, `publisher`, `category`, `uploading`, `last_upload`, COUNT(`id`) as `votes`
         FROM `games`
         LEFT JOIN `votes` ON votes.`game_id` = games.`id`
         WHERE `id` = :gameid AND `hidden` = 0
@@ -185,7 +185,7 @@ $container['visualCaptcha'] = function ($container) {
 $app->add(function ($request, $response, $next) {
     $nonceJS = base64_encode(random_bytes(24));
     $nonceCSS = base64_encode(random_bytes(24));
-    $CORS = "default-src https:; script-src 'self' 'nonce-$nonceJS'; object-src 'self'; style-src 'self' 'nonce-$nonceCSS'; img-src 'self'; media-src 'self'; child-src 'none'; font-src 'self'; connect-src 'self' https://api.gog.com";
+    $CORS = "default-src https:; script-src 'self' 'nonce-$nonceJS'; object-src 'self'; style-src 'self' 'nonce-$nonceCSS'; img-src 'self' images.gog.com; media-src 'self'; child-src 'none'; font-src 'self'; connect-src 'self' https://api.gog.com";
 
     // Add global variable to Twig
     $view = $this->get('view');
@@ -825,13 +825,15 @@ $app->group('/api/v1', function () use ($app) {
 
         $add = $dbh->prepare("
             INSERT IGNORE INTO `games`
-            (`id`, `title`, `indev`, `slug`, `slug_folder`, `url`, `release_date`, `developer`, `publisher`, `category`, `hidden`)
-            VALUES (:id, :title, :indev, :slug, :slug, :url, :rlsdate, :dev, :pub, :cat, 1);
+            (`id`, `title`, `indev`, `slug`, `thumb_id`, `bg_id`, `slug_folder`, `url`, `release_date`, `developer`, `publisher`, `category`, `hidden`)
+            VALUES (:id, :title, :indev, :slug, :thumb_id, :bg_id, :slug, :url, :rlsdate, :dev, :pub, :cat, 1);
         ");
         $add->bindParam(':id', $id, \PDO::PARAM_INT);
         $add->bindParam(':title', $title, \PDO::PARAM_STR);
         $add->bindParam(':indev', $inDev, \PDO::PARAM_INT);
         $add->bindParam(':slug', $slug, \PDO::PARAM_STR);
+        $add->bindParam(':thumb_id', $thumb, \PDO::PARAM_STR);
+        $add->bindParam(':bg_id', $bg, \PDO::PARAM_STR);
         $add->bindParam(':url', $url, \PDO::PARAM_STR);
         $add->bindParam(':rlsdate', $releaseDate, \PDO::PARAM_INT);
         $add->bindParam(':dev', $developer, \PDO::PARAM_STR);
@@ -850,6 +852,14 @@ $app->group('/api/v1', function () use ($app) {
         $inDev = $json['in_development']['active'];
         $slug = $json['slug'];
         $url = $json['links']['product_card'];
+
+        $thumb = $json['images']['logo'];
+        preg_match('/gog\.com\/([a-z0-9]{64})_glx_logo\.jpg/', $thumb, $thumbmatch);
+        $thumb = $thumbmatch[1];
+
+        $bg = $json['images']['background'];
+        preg_match('/gog\.com\/([a-z0-9]{64})\.jpg/', $bg, $bgmatch);
+        $bg = $bgmatch[1];
 
         $parseDate = date_parse($json['release_date']);
         $releaseDate = date('U', mktime($parseDate['hour'], $parseDate['minute'], $parseDate['second'], $parseDate['month'], $parseDate['day'], $parseDate['year']));
@@ -1127,17 +1137,15 @@ $app->group('/api/v1', function () use ($app) {
                      WHEN `queued` = 0 then 'false' END AS `queued`,
                 `last_upload`,
                 `last_update`,
-                CASE WHEN `has_background` = 1 THEN 'true'
-                     WHEN `has_background` = 0 then 'false' END AS `has_background`,
-                CASE WHEN `has_thumbnail` = 1 THEN 'true'
-                     WHEN `has_thumbnail` = 0 then 'false' END AS `has_thumbnail`,
                 `slug`,
                 `slug_folder`,
                 `url`,
                 `release_date`,
                 `developer`,
                 `publisher`,
-                `category`
+                `category`,
+                `thumb_id`,
+                `bg_id`
                 FROM `games`
                 WHERE $showHidden $term
                 $sort

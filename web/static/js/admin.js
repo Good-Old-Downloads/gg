@@ -244,8 +244,6 @@ var gameEdit = new Handsontable(gameEditEl, {
         colBool,
         colDateTime,
         colDateTime,
-        colBool,
-        colBool,
         {
             sortIndicator: true
         },
@@ -256,6 +254,12 @@ var gameEdit = new Handsontable(gameEditEl, {
             sortIndicator: true
         },
         colDateTime,
+        {
+            sortIndicator: true
+        },
+        {
+            sortIndicator: true
+        },
         {
             sortIndicator: true
         },

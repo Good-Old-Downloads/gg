@@ -285,7 +285,7 @@ function toggleDetails(el){
     gameDetailsBg.style.display = 'block';
     gameDetailsBg.style.transform = 'translateY('+amount+'px)';
 
-    gameDetailsBgImage.style.backgroundImage = 'url(/static/img/games/bg/'+id+'.jpg)';
+
 
     http.get({
         url: '/api/public/game',
@@ -330,7 +330,8 @@ function toggleDetails(el){
 
         injectCSS.innerHTML = '';
         imagesLoaded(gameDetailsBgImage, { background: true }, function(instance) {
-            injectCSS.innerHTML = '#game-details > .container:before {background-image: url("/static/img/games/bg/'+id+'.jpg");}';
+            injectCSS.innerHTML = '#game-details > .container:before {background-image: url("//images.gog.com/'+game.bg_id+'.jpg");}';
+            gameDetailsBgImage.style.backgroundImage = 'url(//images.gog.com/'+game.bg_id+'.jpg)';
             gameDetailsBgImage.classList.add('fadein');
             gameDetails.classList.add('fadein');
         });

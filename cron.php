@@ -66,13 +66,15 @@ function updateGames($dbh){
     // Prepare SQL query
     $add = $dbh->prepare("
         INSERT IGNORE INTO `games`
-        (`id`, `title`, `indev`, `slug`, `slug_folder`, `url`, `release_date`, `developer`, `publisher`, `category`, `hidden`)
-        VALUES (:id, :title, :indev, :slug, :slug, :url, :rlsdate, :dev, :pub, :cat, 1);
+        (`id`, `title`, `indev`, `slug`, `thumb_id`, `bg_id`, `slug_folder`, `url`, `release_date`, `developer`, `publisher`, `category`, `hidden`)
+        VALUES (:id, :title, :indev, :slug, :thumb_id, :bg_id, :slug, :url, :rlsdate, :dev, :pub, :cat, 1);
     ");
     $add->bindParam(':id', $id, \PDO::PARAM_INT);
     $add->bindParam(':title', $title, \PDO::PARAM_STR);
     $add->bindParam(':indev', $inDev, \PDO::PARAM_INT);
     $add->bindParam(':slug', $slug, \PDO::PARAM_STR);
+    $add->bindParam(':thumb_id', $thumb, \PDO::PARAM_STR);
+    $add->bindParam(':bg_id', $bg, \PDO::PARAM_STR);
     $add->bindParam(':url', $url, \PDO::PARAM_STR);
     $add->bindParam(':rlsdate', $releaseDate, \PDO::PARAM_INT);
     $add->bindParam(':dev', $developer, \PDO::PARAM_STR);
@@ -85,7 +87,7 @@ function updateGames($dbh){
     ], '.gog.com');
     $page = 1;
     while (true) {
-        $res = $client->request('GET', "https://www.gog.com/games/ajax/filtered?mediaType=game&page=$page&limit=50", ['cookies' => $cookieJar]);
+        $res = $client->request('GET', "https://www.gog.com/games/ajax/filtered?mediaType=game&page=$page&limit=48", ['cookies' => $cookieJar]);
         $status = $res->getStatusCode();
         if ($status === 200) {
             $json = json_decode($res->getBody(), true);
@@ -126,16 +128,18 @@ function updateImages($dbh){
     global $CONFIG;
     addLog('Start task "updateImages"');
     // List games to work on
-    $empty = $dbh->prepare('SELECT `title`, `id`, `has_background`, `has_thumbnail` FROM `games` WHERE `has_background` = 0 OR `has_thumbnail` = 0');
+    $empty = $dbh->prepare('SELECT `title`, `id`, `bg_id`, `thumb_id` FROM `games` WHERE `bg_id` IS NULL OR `thumb_id` IS NULL');
     $empty->execute();
     $emptyImages = $empty->fetchAll(\PDO::FETCH_ASSOC);
 
     // Prepare SQL query
-    $updateBG = $dbh->prepare("UPDATE `games` SET `has_background` = 1 WHERE id = :id");
+    $updateBG = $dbh->prepare("UPDATE `games` SET `bg_id` = :bg_id WHERE `id` = :id");
     $updateBG->bindParam(':id', $id, \PDO::PARAM_INT);
+    $updateBG->bindParam(':bg_id', $bg_id, \PDO::PARAM_STR);
 
-    $updateThumb = $dbh->prepare("UPDATE `games` SET `has_thumbnail` = 1 WHERE id = :id");
+    $updateThumb = $dbh->prepare("UPDATE `games` SET `thumb_id` = :thumb_id WHERE `id` = :id");
     $updateThumb->bindParam(':id', $id, \PDO::PARAM_INT);
+    $updateThumb->bindParam(':thumb_id', $thumb_id, \PDO::PARAM_STR);
 
     $client = new GuzzleHttp\Client();
 
@@ -162,30 +166,21 @@ function updateImages($dbh){
         }
         
         $json = json_decode($res->getBody(), true);
-        $bgURL = $json['images']['background'];
-        $bgBig = $bgURL;
-        $thumb = str_replace("_glx_logo.jpg", "_196.jpg", $json['images']['logo']);
-        $bgDetails = preg_replace('/(\.jpg)/', '_details_bg_1120.jpg', $bgURL);
 
-        if ($game['has_background'] == '0') {
+        if ($game['bg_id'] === null) {
             // Try downloading backgrounds
-            try {
-                $client->request('GET', "https:$bgBig", ['sink' => "{$CONFIG['BG_STORAGE']}/$id.jpg"]);
-                $client->request('GET', "https:$bgDetails", ['sink' => "{$CONFIG['DETAILS_STORAGE']}/$id.jpg"]);
-            } catch (\GuzzleHttp\Exception\ClientException $e) {
-                continue;
-            }
+            $bg = $json['images']['background'];
+            preg_match('/gog\.com\/([a-z0-9]{64})\.jpg/', $bg, $bgmatch);
+            $bg_id = $bgmatch[1];
             $updateBG->execute();
             addLog("Added background for $title");
         }
 
-        if ($game['has_thumbnail'] == '0') {
+        if ($game['thumb_id'] === null) {
             // Try thumbnail
-            try {
-                $client->request('GET', "https:$thumb", ['sink' => "{$CONFIG['THUMB_STORAGE']}/$id.jpg"]);
-            } catch (\GuzzleHttp\Exception\ClientException $e) {
-                continue;
-            }
+            $thumb = $json['images']['logo'];
+            preg_match('/gog\.com\/([a-z0-9]{64})_glx_logo\.jpg/', $thumb, $thumbmatch);
+            $thumb_id = $thumbmatch[1];
             $updateThumb->execute();
             addLog("Added thumbnail for $title");
         }

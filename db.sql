@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS `games` (
   `updated` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `last_upload` int(11) unsigned NOT NULL DEFAULT 0,
   `last_update` int(11) unsigned NOT NULL DEFAULT 0,
-  `has_background` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `has_thumbnail` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `thumb_id` varchar(64) DEFAULT NULL,
+  `bg_id` varchar(64) DEFAULT NULL,
   `slug` varchar(255) NOT NULL,
   `slug_folder` varchar(255) DEFAULT NULL,
   `url` varchar(2083) DEFAULT NULL,
@@ -48,7 +48,9 @@ CREATE TABLE IF NOT EXISTS `games` (
   KEY `date_added` (`last_update`),
   KEY `slug_folder` (`slug_folder`),
   KEY `uploading` (`uploading`),
-  KEY `queued` (`queued`)
+  KEY `queued` (`queued`),
+  KEY `thumb_id` (`thumb_id`),
+  KEY `bg_id` (`bg_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `hosters` (
