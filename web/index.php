@@ -385,21 +385,7 @@ $app->get('/', function ($request, $response, $args) {
     $getUpdated->execute();
     $updated = $getUpdated->fetchAll(PDO::FETCH_ASSOC);
 
-/*    $getGames = $dbh->prepare("
-        SELECT *, SUM(`has_voted_temp`) as `has_voted`, IF(DATE_ADD(FROM_UNIXTIME(`last_upload`), INTERVAL 30 DAY) >= NOW(), 0, 1) as `can_vote`, COUNT(`game_id`) as `votes` FROM (
-            SELECT IF(votes.`uid` = INET6_ATON(:ip), 1, 0) AS `has_voted_temp`, `game_id`, games.*
-            FROM `games`
-            LEFT JOIN `votes` ON `game_id` = `id`
-            WHERE `hidden` != 1
-        ) as t
-        GROUP BY `id`
-        ORDER BY `title` LIMIT 0,54
-    ");
-    $getGames->bindParam(':ip', $ipAddress, \PDO::PARAM_STR);
-    $getGames->execute();
-    $games = $getGames->fetchAll(PDO::FETCH_ASSOC);*/
     return $this->view->render($response, 'index.twig', [
-        'games' => $games,
         'updated' => $updated,
         'new' => $new,
         'notice' => getOption('notice')
