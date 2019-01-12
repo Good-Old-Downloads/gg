@@ -100,11 +100,11 @@ class Elastic
                                 'type' => 'date',
                                 'format' => 'epoch_second'
                             ],
-                            'has_background' => [
-                                'type' => 'integer'
+                            'bg_id' => [
+                                'type' => 'text'
                             ],
-                            'has_thumbnail' => [
-                                'type' => 'integer'
+                            'thumb_id' => [
+                                'type' => 'text'
                             ],
                             'slug' => [
                                 'type' => 'text'
@@ -188,8 +188,8 @@ class Elastic
                     'updated' => $game['updated'],
                     'last_upload' => intval($game['last_upload']),
                     'last_update' => intval($game['last_update']),
-                    'has_background' => $game['has_background'],
-                    'has_thumbnail' => $game['has_thumbnail'],
+                    'bg_id' => $game['bg_id'],
+                    'thumb_id' => $game['thumb_id'],
                     'slug' => $game['slug'],
                     'slug_folder' => $game['slug_folder'],
                     'url' => $game['url'],
@@ -242,8 +242,8 @@ class Elastic
                         'updated' => $game['updated'],
                         'last_upload' => intval($game['last_upload']),
                         'last_update' => intval($game['last_update']),
-                        'has_background' => $game['has_background'],
-                        'has_thumbnail' => $game['has_thumbnail'],
+                        'bg_id' => $game['bg_id'],
+                        'thumb_id' => $game['thumb_id'],
                         'slug' => $game['slug'],
                         'slug_folder' => $game['slug_folder'],
                         'url' => $game['url'],
