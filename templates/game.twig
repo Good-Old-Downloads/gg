@@ -22,13 +22,13 @@
 
 {% block meta %}
 <meta property="og:title" content="{{ game.title }}">
-<meta property="og:image" content="//images.gog.com/{{ game.thumb_id }}_196.jpg">
+<meta property="og:image" content="https://images.gog.com/{{ game.thumb_id }}_196.jpg">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="196">
 <meta property="og:image:height" content="110">
 <meta property="description" content="Download {{ game.title }} GOG for free with direct links.">
 <meta property="og:description" content="Download {{ game.title }} GOG for free with direct links.">
-<style nonce="{{ nonce.style }}">.container.game>.bg{background-image: url(//images.gog.com/{{ game.bg_id }}.jpg) !important;}</style>
+<style nonce="{{ nonce.style }}">.container.game>.bg{background-image: url(https://images.gog.com/{{ game.bg_id }}.jpg) !important;}</style>
 <script nonce="{{ nonce.script }}">dank = "{{ game.dank }}";memes = {{ game.memes }};</script> {# Load as fast as possible #}
 {% endblock meta %}
 
