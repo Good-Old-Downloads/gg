@@ -42,7 +42,7 @@ function getOption($settingName) {
         $settingVal = $get->fetchColumn();
         $Memcached->add("god_setting_$settingName", $settingVal, 0);
     }
-    if (unserialize($settingVal) !== false) {
+    if (@unserialize($settingVal) !== false) {
         $settingVal = unserialize($settingVal);
     }
     return $settingVal;
@@ -432,6 +432,7 @@ $app->get('/search/{term}[/{page}[/{sort}[/{sortby}[/{genre}[/{developer}]]]]]',
     }
 
     // Term
+    $all = false;
     if ($args['term'] === 'all') {
         $all = true;
         $term = 'all';
@@ -440,12 +441,18 @@ $app->get('/search/{term}[/{page}[/{sort}[/{sortby}[/{genre}[/{developer}]]]]]',
     }
 
     // Sorting
-    $sortKey = $args['sort'];
-    $sortBy = $args['sortby'];
-    if ($sortKey == null && !$all) {
+    $sortKey = null;
+    if (isset($args['sort'])) {
+        $sortKey = $args['sort'];
+    }
+    $sortBy = null;
+    if (isset($args['sortby'])) {
+        $sortBy = $args['sortby'];
+    }
+    if ($sortKey === null && !$all) {
         $sortKey = 'relevance';
     }
-    if ($sortKey == null && $all) {
+    if ($sortKey === null && $all) {
         $sortKey = 'title';
     }
 
@@ -534,7 +541,11 @@ $app->get('/search/{term}[/{page}[/{sort}[/{sortby}[/{genre}[/{developer}]]]]]',
     // Pagination
     $limit = 28; // so it can be even
 
-    $pageCurrent = intval($args['page']);
+    $page = 1;
+    if (isset($args['page'])) {
+        $page = $args['page'];
+    }
+    $pageCurrent = intval($page);
 
     // In case page is less than first page
     if ($pageCurrent < 1) {
