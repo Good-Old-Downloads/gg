@@ -85,7 +85,7 @@ function updateGames($dbh){
     ], '.gog.com');
     $page = 1;
     while (true) {
-        $res = $client->request('GET', "https://www.gog.com/games/ajax/filtered?mediaType=game&page=$page&limit=50", ['cookies' => $cookieJar]);
+        $res = $client->request('GET', "https://www.gog.com/games/ajax/filtered?mediaType=game&page=$page&limit=48", ['cookies' => $cookieJar]);
         $status = $res->getStatusCode();
         if ($status === 200) {
             $json = json_decode($res->getBody(), true);
