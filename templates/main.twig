@@ -132,7 +132,6 @@ Brazilian/Portuguese (soon tm) - Matheus
         </button>
       </form>
       <a href="/faq" id="faq">{{ 'FAQ'|trans }}</a>
-      <a href="/donate" id="donate">{{ 'Donate'|trans }}</a>
       <a href="/queue" id="queue">{{ 'Queue'|trans }}</a>
       <div href="#" class="dropdown" title="{{ 'Change Language'|trans }}">
         <span><i class="fas fa-fw fa-lg fa-language"></i> <i class="fas fa-chevron-down fa-xs fa-fw"></i></span>
@@ -146,7 +145,6 @@ Brazilian/Portuguese (soon tm) - Matheus
         </ul>
       </div>
       <a href="/rss"><i class="fas fa-fw fa-norm fa-rss"></i></a>
-      <a href="/donate" id="donate-bar">{{ 'Monthly Donations:'|trans }} {{ donations.percent|round }}%</a>
       {% if was_user and session.user == null %}
       <a href="{{ path_for('login') }}">{{ 'Login'|trans }}</a>
       {% elseif was_user and session.user == config.USER.NAME %}
