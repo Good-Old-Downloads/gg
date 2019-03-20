@@ -133,17 +133,6 @@ Brazilian/Portuguese (soon tm) - Matheus
       </form>
       <a href="/faq" id="faq">{{ 'FAQ'|trans }}</a>
       <a href="/queue" id="queue">{{ 'Queue'|trans }}</a>
-      <div href="#" class="dropdown" title="{{ 'Change Language'|trans }}">
-        <span><i class="fas fa-fw fa-lg fa-language"></i> <i class="fas fa-chevron-down fa-xs fa-fw"></i></span>
-        <ul>
-          <form method="post">
-            <li><button type="submit" value="de_DE" name="setlang">Deutsch</button></li>
-            <li><button type="submit" value="en_US" name="setlang">English</button></li>
-            <li><button type="submit" value="es_ES" name="setlang">Español</button></li>
-            <li><button type="submit" value="ru_RU" name="setlang">Русский</button></li>
-          </form>
-        </ul>
-      </div>
       <a href="/rss"><i class="fas fa-fw fa-norm fa-rss"></i></a>
       {% if was_user and session.user == null %}
       <a href="{{ path_for('login') }}">{{ 'Login'|trans }}</a>
