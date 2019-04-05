@@ -193,7 +193,7 @@ function clearTags($dbh){
     $Elastic = new Elastic();
     $getIds = $dbh->prepare('
         SELECT `id` fROM `games`
-        WHERE (`new` = 1 OR `updated` = 1) AND `last_update` <= (UNIX_TIMESTAMP() - 604800)
+        WHERE (`new` = 1 OR `updated` = 1) AND `last_update` <= (UNIX_TIMESTAMP() - 1209600)
         AND `hidden` != 1
     ');
     $getIds->execute();
@@ -201,7 +201,7 @@ function clearTags($dbh){
 
     $clear = $dbh->prepare('
         UPDATE `games` SET `updated` = 0, `new` = 0
-        WHERE (`new` = 1 OR `updated` = 1) AND `last_update` <= (UNIX_TIMESTAMP() - 604800)
+        WHERE (`new` = 1 OR `updated` = 1) AND `last_update` <= (UNIX_TIMESTAMP() - 1209600)
         AND `hidden` != 1
     ');
     $clear->execute();
