@@ -8,3 +8,7 @@ To access the website you will need to do the following:
 
 ### Authors
 MachineGunnur
+
+### License
+This project is licensed under the GNU General Public License v3.0 - see [LICENSE](LICENSE) for details.  
+and/or this [tl;dr](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3))
