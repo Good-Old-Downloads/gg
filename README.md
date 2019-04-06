@@ -6,6 +6,9 @@ To access the website you will need to do the following:
 1. Install [Tor Browser](https://www.torproject.org/download/)
 2. Once installed, visit xxxx.onion in Tor Browser
 
+### Changelog
+None for now.
+
 ### Authors
 MachineGunnur
 
