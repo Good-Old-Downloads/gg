@@ -15,30 +15,7 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #}
-<!--
-          Good Old Downloads
- ________________   ________________
-|                | |                |
-|    ________    | |    ________    |
-|   |        |   | |   |        |   |
-|   |        |   | |   |        |   |
-|   |        |   | |   |        |   |
-|   |______  |   | |   |______  |   |
-|          | |   | |          | |   |
-|__________| |   | |__________| |   |
-             |   |              |   |
- ____________|   |  ____________|   |
-|                | |                |
-|________________| |________________|
 
-Translators:
-Russian - Haoose
-German - Venom
-Spanish - .Rar, Lobuno
-French (soon tm) - Julien
-Brazilian/Portuguese (soon tm) - Matheus
-
--->
 {% set baseUrl = base_url()|replace({'http://': '', 'https://': ''}) %}
 {% if base_url()|slice(0, 5) == "http:" %}
   {% set urlScheme = "http://" %}
@@ -51,13 +28,13 @@ Brazilian/Portuguese (soon tm) - Matheus
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no">
-  <title>{% block title %}{% endblock title %}{% if block('title') is defined and block('title') != '' %} - {% endif %}GOG Games | Good Old Downloads</title>
+  <title>{% block title %}{% endblock title %}{% if block('title') is defined and block('title') != '' %} - {% endif %}GOG Games</title>
   <meta name="description" content="Download free GOG PC games. We have every game from the GOG.com catalog available to download for free! Free direct link and torrent game downloads.">
   <link rel="icon" type="image/png" href="/static/img/favicon-16.png" sizes="16x16">
   <link rel="icon" type="image/png" href="/static/img/favicon-32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="/static/img/favicon-96.png" sizes="96x96">
-  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GOG Games Search - Good Old Downloads">
-  <link rel="alternate" type="application/rss+xml" title="Newly added/updated GOG games from Good Old Downloads" href="{{ base_url() }}/rss" />
+  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GOG Games Search">
+  <link rel="alternate" type="application/rss+xml" title="Newly added/updated GOG games" href="{{ base_url() }}/rss" />
   {{ loadCSS(['/static/css/style.css'], []) }}
 
   <meta name="theme-color" content="#6a4da5">
@@ -67,7 +44,7 @@ Brazilian/Portuguese (soon tm) - Matheus
   <style nonce="{{ nonce.style }}">#donate-bar:before{width:{{ (donations.percent > 100) ? 100 : donations.percent }}% !important;}</style>
   <style nonce="{{ nonce.style }}" id="css-inject"></style>
   {% block meta %}
-    <meta property="og:title" content="GOG Games | Good Old Downloads">
+    <meta property="og:title" content="GOG Games">
     <meta property="og:image" content="https://goggames.goodolddownloads.com/static/img/og_image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="140">
