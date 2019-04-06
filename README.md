@@ -9,8 +9,10 @@ To access the website you will need to do the following:
 ### Changelog
 None for now.
 
-### Authors
+### Authors & Credits
 MachineGunnur
+Lindre - thanks for help friend with english :)
+GOD Team - thanks for giving us site source code on github
 
 ### License
 This project is licensed under the GNU General Public License v3.0. See [LICENSE](LICENSE) for details or this [TL;DR](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)).
