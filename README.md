@@ -7,7 +7,7 @@ To access the website you will need to do the following:
 2. Once installed, visit goggamespc7v6z5e.onion in Tor Browser
 
 ### Changelog
-None for now.
+April 7, 2019 - initial release :)
 
 ### Authors & Credits
 * MachineGunnur
