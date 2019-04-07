@@ -4,7 +4,7 @@ A continuitation of Good Old Downloads' [GOG Games](https://github.com/Good-Old-
 ### Accessing 
 To access the website you will need to do the following:
 1. Install [Tor Browser](https://www.torproject.org/download/)
-2. Once installed, visit xxxx.onion in Tor Browser
+2. Once installed, visit goggamespc7v6z5e.onion in Tor Browser
 
 ### Changelog
 None for now.
