@@ -25,7 +25,6 @@ require '../config.php';
 require '../db.php';
 require '../memcached.php';
 require '../Elastic.class.php';
-require '../Vigenere.class.php';
 require '../twig.ext.php';
 
 session_set_cookie_params(60*60*24*365, '/', $_SERVER['HTTP_HOST'], ($CONFIG["DEV"] ? false : true), true);
@@ -61,8 +60,7 @@ function setOption($settingName, $settingVal) {
 }
 
 function getGame($id, $ipAddress) {
-    global $dbh, $VKEYS;
-    $cipher = new Vigenere();
+    global $dbh;
     // Prepare SQL query
     $get = $dbh->prepare("
         SELECT `id`, `title`, `slug`, `thumb_id`, `bg_id`, `url`, `developer`, `publisher`, `category`, `uploading`, `last_upload`, COUNT(`id`) as `votes`
@@ -118,14 +116,11 @@ function getGame($id, $ipAddress) {
     if (count($linkresults) === 0) {
         $linklist = false;
     } else {
-        $VKEY = $VKEYS[mt_rand(0, count($VKEYS) - 1)];
-        $game['dank'] = $VKEY;
-        $game['memes'] = rand(1,5);
         $linklist = ['GAME' => [], 'PATCHES' => [], 'GOODIES' => []];
         foreach ($linkresults as $key => $link) {
             $newitem = [];
             $newitem['name'] = $link['name'];
-            $newitem['link'] = $cipher->encrypt($link['link'], $VKEY, $game['memes']);
+            $newitem['link'] = $link['link'];
             $linklist[$link['type'].'_temp'][$link['host']]['slug'] = $link['host'];
             $linklist[$link['type'].'_temp'][$link['host']]['name'] = $link['host_name'];
             $linklist[$link['type'].'_temp'][$link['host']]['icon'] = $link['icon_html'];

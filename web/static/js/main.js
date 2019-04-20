@@ -1,11 +1,3 @@
-// @koala-prepend "polyfills.js"
-// @koala-prepend "mustache.js"
-// @koala-prepend "scrollTo.js"
-// @koala-prepend "imagesloaded.pkgd.js"
-// @koala-prepend "clipboard.js"
-// @koala-prepend "filesize.min.js"
-// @koala-prepend "vigenere.js"
-// @koala-prepend "visualcaptcha.vanilla.js"
 document.body.classList.remove('no-js');
 
 var http = function() {
@@ -442,7 +434,6 @@ document.addEventListener('click', function(evt) {
 new Clipboard('.clip', {
     text: function(trigger) {
         var anchors = trigger.parentNode.querySelectorAll('a.item');
-        fixlinks(anchors);
         anchors = trigger.parentNode.querySelectorAll('a.item');
         var links = [];
         for (var i = 0; i < anchors.length; i++) {
@@ -462,7 +453,6 @@ document.addEventListener('click', function(evt) {
         }
         var urls = [];
         var anchors = target.parentNode.querySelectorAll('a.item');
-        fixlinks(anchors);
         anchors = target.parentNode.querySelectorAll('a.item');
         for (var i = 0; i < anchors.length; i++) {
             var node = anchors[i];
@@ -537,24 +527,6 @@ if (document.querySelector('.container.game')) {
 
 
 
-// Decipher when <label> for links is clicked. (This is just to stop the automated DMCA bots)
-function fixlinks(linksContainer){
-    for (var i = linksContainer.length - 1; i >= 0; i--) {
-        var el = linksContainer[i];
-        if (el.classList.contains('__no_decipher')) {
-            continue;
-        }
-        var uri = el.href;
-        var count = 0;
-        while (count < memes) {
-            uri = decipher(dank, uri);
-            count++;
-        }
-        el.title = uri;
-        el.href = uri;
-        el.classList.add('__no_decipher');
-    }
-}
 document.addEventListener('click', function(evt) {
     if (evt.target && evt.target.matches('label.item, label.item *')) {
         evt.stopPropagation();
@@ -576,7 +548,6 @@ document.addEventListener('click', function(evt) {
             icon.classList.add('fa-minus');
             icon.title = icon.dataset.toggledText;
         }
-        fixlinks(linksContainer);
     }
 }, false);
 
