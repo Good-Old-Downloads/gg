@@ -38,10 +38,11 @@
         {% if game.indev %}<span class="tag indev">{{ 'IN DEV'|trans }}</span>{% endif %}
         {% if game.uploading %}<span class="tag uploading">{{ 'UPLOADING'|trans }}</span>{% endif %}
       </div>
-      {# Don't show if last upload was less than 30 days ago #}
+      {% if game.last_update != 0 %}
       <div class="date">
         {{ 'Last Update:'|trans }} <span data-moment="epoch" data-format="fromnow" data-time="{{ game.last_update }}"></span>
       </div>
+      {% endif %}
     </a>
   {% endfor %}
   {% endspaceless %}
