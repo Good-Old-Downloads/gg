@@ -1286,7 +1286,7 @@ $app->group('/api/public', function () use ($app) {
             $checkVoteCount = $dbh->prepare("SELECT COUNT(*) FROM `votes` WHERE `uid` = INET6_ATON(:ip)");
             $checkVoteCount->bindParam(':ip', $ipAddress, \PDO::PARAM_STR);
             $checkVoteCount->execute();
-            if ($checkVoteCount->fetchColumn() >= 3) {
+            if ($checkVoteCount->fetchColumn() >= 100) {
                 return $response->withJson(['SUCCESS' => false, 'MSG' => _('Your vote limit has exceeded.')]);
             }
 
