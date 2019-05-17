@@ -1,10 +1,14 @@
 # Overview
 A continuitation of Good Old Downloads' [GOG Games](https://github.com/Good-Old-Downloads/gg) project. The goal is to create a copy of the original site by keeping games updated, voting, automated uploading, etc.
 
-### Accessing 
-To access the website you will need to do the following:
+### Accessing the site
+
+Preferred:
 1. Install [Tor Browser](https://www.torproject.org/download/)
 2. Once installed, visit goggamespc7v6z5e.onion in Tor Browser
+
+Alternative:
+1. Go to: https://goggamespc7v6z5e.onion.ws/ 
 
 ### Changelog
 April 7, 2019 - initial release :)
