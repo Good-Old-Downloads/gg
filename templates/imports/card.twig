@@ -40,7 +40,7 @@
       </div>
       {% if game.last_update != 0 %}
       <div class="date">
-        {{ 'Last Update:'|trans }} <span data-moment="epoch" data-format="fromnow" data-time="{{ game.last_update }}"></span>
+        {{ 'Last Update:'|trans }} <span>{{ game.last_update|time_diff }}</span>
       </div>
       {% endif %}
     </a>

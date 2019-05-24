@@ -315,6 +315,7 @@ $container['view'] = function ($container) {
     $view->addExtension(new \Slim\Views\TwigExtension($container->get('router'), $uri->withPort(null)));
 
     $twig->addExtension(new Twig_Extensions_Extension_I18n());
+    $twig->addExtension(new Twig_Extensions_Extension_Date());
     $twig->addExtension(new AppExtension());
     $twig->addGlobal('config', $CONFIG);
     $twig->addGlobal('was_user', isset($_COOKIE['was_user']));
