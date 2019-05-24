@@ -109,9 +109,9 @@
         </button>
       </form>
       <a href="/donate" id="donate"><i class="fas fa-fw fa-norm fa-heart txt-red"></i></a>
+      <a href="/rss"><i class="fas fa-fw fa-norm fa-rss txt-orange"></i></a>
       <a href="/faq" id="faq">{{ 'FAQ'|trans }}</a>
       <a href="/queue" id="queue">{{ 'Queue'|trans }}</a>
-      <a href="/rss"><i class="fas fa-fw fa-norm fa-rss"></i></a>
       {% if was_user and session.user == null %}
       <a href="{{ path_for('login') }}">{{ 'Login'|trans }}</a>
       {% elseif was_user and session.user == config.USER.NAME %}
