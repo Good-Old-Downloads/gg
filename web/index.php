@@ -396,7 +396,8 @@ $app->get('/search', function ($request, $response, $args) {
 });
 
 $app->get('/search/{term}[/{page}[/{sort}[/{sortby}[/{genre}[/{developer}]]]]]', function ($request, $response, $args) {
-    $Elastic = new Elastic();
+    global $CONFIG;
+    $Elastic = new Elastic($CONFIG['ES']['HOSTS']);
 
     // Check dev
     $developer = null;
@@ -701,7 +702,7 @@ $app->post('/admin', function ($request, $response, $args) {
     }
 
     if (isset($_POST['reindex_search'])) {
-        $Elastic = new Elastic();
+        $Elastic = new Elastic($CONFIG['ES']['HOSTS']);
         try {
             $Elastic->Clear();
         } catch (Exception $e) {
@@ -812,7 +813,7 @@ $app->group('/api/v1', function () use ($app) {
     });
 
     $app->post('/addgamebasedonid', function ($request, $response, $args) {
-        global $dbh;
+        global $dbh, $CONFIG;
         $id = intval($_POST['id']);
         $client = new GuzzleHttp\Client();
 
@@ -863,7 +864,7 @@ $app->group('/api/v1', function () use ($app) {
 
         $success = $add->execute();
         if ($success) {
-            $Elastic = new Elastic();
+            $Elastic = new Elastic($CONFIG['ES']['HOSTS']);
             $Elastic->UpdateGame($id);
             return $response->withJson(['SUCCESS' => true, 'MSG' => "$title added. (hidden)"]);
         } else {
@@ -920,8 +921,8 @@ $app->group('/api/v1', function () use ($app) {
         return $response->withJson($del->execute());
     });
     $app->post('/games/preupload', function ($request, $response, $args) {
-        global $dbh;
-        $Elastic = new Elastic();
+        global $dbh, $CONFIG;
+        $Elastic = new Elastic($CONFIG['ES']['HOSTS']);
         $json = $request->getParsedBody();
         // Set game to "uploading"
         $s = $dbh->prepare("UPDATE `games` SET `uploading` = 1 WHERE `id` = :id");
@@ -967,8 +968,8 @@ $app->group('/api/v1', function () use ($app) {
         return $response->withJson($add->execute());
     });
     $app->post('/games/postupload', function ($request, $response, $args) {
-        global $dbh;
-        $Elastic = new Elastic();
+        global $dbh, $CONFIG;
+        $Elastic = new Elastic($CONFIG['ES']['HOSTS']);
         $json = $request->getParsedBody();
         $id = $json['id'];
         // Unset "uploading" and "queued" = 0
@@ -1162,8 +1163,8 @@ $app->group('/api/v1', function () use ($app) {
 
     // Sabe
     $app->post('/savegames', function ($request, $response, $args) {
-        global $dbh;
-        $Elastic = new Elastic();
+        global $dbh, $CONFIG;
+        $Elastic = new Elastic($CONFIG['ES']['HOSTS']);
         $data = json_decode($_POST['data']);
         foreach ($data as $key => $value) {
             $id = $value->id;
@@ -1241,7 +1242,7 @@ $app->group('/api/public', function () use ($app) {
         return $response->withJson($game);
     });
     $app->post('/vote', function ($request, $response, $args) {
-        global $dbh;
+        global $dbh, $CONFIG;
         $ipAddress = $request->getAttribute('ip_address');
         if (isset($_POST['id']) && is_numeric($_POST['id'])) {
             $captcha = $this->get('visualCaptcha');
@@ -1312,7 +1313,7 @@ $app->group('/api/public', function () use ($app) {
             $vote->bindParam(':ip', $ipAddress, \PDO::PARAM_STR);
             $vote->bindParam(':game_id', $id, \PDO::PARAM_INT);
             if ($vote->execute()) {
-                $Elastic = new Elastic();
+                $Elastic = new Elastic($CONFIG['ES']['HOSTS']);
                 $Elastic->UpdateGame($id);
                 return $response->withJson(['SUCCESS' => true]);
             } else {

@@ -21,10 +21,10 @@ class Elastic
 {
  
     private $client = null;
- 
-    public function __construct()
+
+    public function __construct($hosts = ['localhost'])
     {
-        $this->client = Elasticsearch\ClientBuilder::create()->build();
+        $this->client = Elasticsearch\ClientBuilder::create()->setHosts($hosts)->build();
     }
     public function Mapping(){
         $params = [
