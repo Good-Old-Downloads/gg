@@ -23,7 +23,7 @@ $CONFIG = [
         "DBHOST" => "localhost",
         "DBNAME" => "gg",
         "DBUSER" => "root",
-        "DBPASS" => ""
+        "DBPASS" => "123"
     ],
 
     // Memcached details
