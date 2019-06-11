@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?> 
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
   <ShortName>GOG Games Search</ShortName>
-  <Description>Search for GOG games on Good Old Downloads</Description>
+  <Description>Search GOG Games</Description>
   <Url type="text/html" method="get" template="http://goggamespc7v6z5e.onion/search/{searchTerms}"/>
   <Image width="16" height="16">http://goggamespc7v6z5e.onion/static/img/favicon-16.png</Image>
   <InputEncoding>UTF-8</InputEncoding>
