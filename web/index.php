@@ -929,11 +929,6 @@ $app->group('/api/v1', function () use ($app) {
         $s->bindParam(':id', $json['id'], \PDO::PARAM_INT);
         $s->execute();
 
-        // Clear votes
-        $v = $dbh->prepare("DELETE FROM `votes` WHERE `game_id` = :id");
-        $v->bindParam(':id', $json['id'], \PDO::PARAM_INT);
-        $v->execute();
-
         // Delete old links
         $del = $dbh->prepare("DELETE FROM `links` WHERE `game_id` = :id");
         $del->bindParam(':id', $json['id'], \PDO::PARAM_INT);
@@ -976,6 +971,11 @@ $app->group('/api/v1', function () use ($app) {
         $u = $dbh->prepare("UPDATE `games` SET `uploading` = 0, `queued` = 0 WHERE `id` = :id");
         $u->bindParam(':id', $id, \PDO::PARAM_INT);
         $u->execute();
+        
+        // Clear votes
+        $v = $dbh->prepare("DELETE FROM `votes` WHERE `game_id` = :id");
+        $v->bindParam(':id', $json['id'], \PDO::PARAM_INT);
+        $v->execute();
 
         // Set `last_upload` to now
         $set = $dbh->prepare("UPDATE `games` SET `last_upload` = UNIX_TIMESTAMP() WHERE `id` = :id");
