@@ -37,9 +37,9 @@ try {
         $Memcached->addServer($CONFIG["MEMCACHED"]["SERVER"], $CONFIG["MEMCACHED"]["PORT"]);
     }
 } catch (Exception $e) {
-    echo "Shit's fuxked yoo";
+    echo "Memcached has encountered an error.";
     die;
 } catch (Error $e) {
-    echo "Shit's fuxked yoooooo";
+    echo "Memcached has encountered an error.";
     die;
 }
