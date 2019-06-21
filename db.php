@@ -6,6 +6,6 @@ try {
         $CONFIG["DB"]["DBUSER"],
         $CONFIG["DB"]["DBPASS"]);
 } catch (\PDOException $e) {
-    echo "brb lol";
+    echo "Could not establish a connection to MariaDB.";
     die;
 }
