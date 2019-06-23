@@ -1027,7 +1027,7 @@ $app->group('/api/v1', function () use ($app) {
         $setUpdated = $dbh->prepare('UPDATE `games` SET `updated` = 1, `queued` = 1, `last_update` = UNIX_TIMESTAMP(), `last_upload` = UNIX_TIMESTAMP() WHERE `slug_folder` = :slug');
         $setUpdated->bindParam(':slug', $slug, PDO::PARAM_STR);
         
-        $setNew = $dbh->prepare('UPDATE `games` SET `hidden` = 0, `new` = 1, `last_update` = UNIX_TIMESTAMP(), `last_upload` = UNIX_TIMESTAMP() WHERE `slug_folder` = :slug');
+        $setNew = $dbh->prepare('UPDATE `games` SET `hidden` = 0, `new` = 1, `queued` = 1, `last_update` = UNIX_TIMESTAMP(), `last_upload` = UNIX_TIMESTAMP() WHERE `slug_folder` = :slug');
         $setNew->bindParam(':slug', $slug, PDO::PARAM_STR);
 
         // Clear links
