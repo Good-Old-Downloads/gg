@@ -1077,6 +1077,15 @@ $app->group('/api/v1', function () use ($app) {
                 }
                 return $response->withJson(['SUCCESS' => true, 'MSG' => "$changed games set to \"updated\"."]);
                 break;
+            case 'new':
+                foreach ($slugs as $key => $slug) {
+                    $setNew->execute();
+                    if ($setUpdated->rowCount() > 0) {
+                        $changed++;
+                    }
+                }
+                return $response->withJson(['SUCCESS' => true, 'MSG' => "$changed games set to \"new\"."]);
+                break;
             default:
                 return $response->withJson(['SUCCESS' => false, 'MSG' => "Invalid Action"]);
                 break;
