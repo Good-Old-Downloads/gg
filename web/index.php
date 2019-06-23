@@ -1080,7 +1080,7 @@ $app->group('/api/v1', function () use ($app) {
             case 'new':
                 foreach ($slugs as $key => $slug) {
                     $setNew->execute();
-                    if ($setUpdated->rowCount() > 0) {
+                    if ($setNew->rowCount() > 0) {
                         $changed++;
                     }
                 }
