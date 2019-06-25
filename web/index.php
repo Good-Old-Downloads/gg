@@ -1079,6 +1079,8 @@ $app->group('/api/v1', function () use ($app) {
                 break;
             case 'new':
                 foreach ($slugs as $key => $slug) {
+                    $delFiles->execute();
+                    $delLinks->execute();
                     $setNew->execute();
                     if ($setNew->rowCount() > 0) {
                         $changed++;
