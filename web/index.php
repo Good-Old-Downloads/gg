@@ -1042,7 +1042,7 @@ $app->group('/api/v1', function () use ($app) {
 ");
         
 $setVote->bindParam(':ip', $ipAddress, \PDO::PARAM_STR);
-$setVote->bindParam(':slug_folder', $id, \PDO::PARAM_STR);
+$setVote->bindParam(':slug_folder', $slug, \PDO::PARAM_STR);
 $setVote->execute();
 
         // Clear links
