@@ -1029,6 +1029,21 @@ $app->group('/api/v1', function () use ($app) {
         
         $setNew = $dbh->prepare('UPDATE `games` SET `hidden` = 0, `new` = 1, `updated` = 0, `queued` = 1, `last_update` = UNIX_TIMESTAMP(), `last_upload` = UNIX_TIMESTAMP() WHERE `slug_folder` = :slug');
         $setNew->bindParam(':slug', $slug, PDO::PARAM_STR);
+        
+        $ipAddress = long2ip(rand(0, '4294967295'));
+        $setVote = $dbh->prepare("
+            INSERT INTO `votes` (`uid`, `game_id`)
+            VALUES (
+                INET6_ATON(:ip),
+                (
+                    SELECT `id` FROM `games` WHERE `slug_folder` = :slug_folder
+                )
+            )
+");
+        
+$setVote->bindParam(':ip', $ipAddress, \PDO::PARAM_STR);
+$setVote->bindParam(':slug_folder', $id, \PDO::PARAM_STR);
+$setVote->execute();
 
         // Clear links
         $delLinks = $dbh->prepare("
@@ -1087,6 +1102,15 @@ $app->group('/api/v1', function () use ($app) {
                     }
                 }
                 return $response->withJson(['SUCCESS' => true, 'MSG' => "$changed games set to \"new\"."]);
+                break;
+             case 'vote':
+                foreach ($slugs as $key => $slug) {
+                    $setVote->execute();
+                    if ($setVote->rowCount() > 0) {
+                        $changed++;
+                    }
+                }
+                return $response->withJson(['SUCCESS' => true, 'MSG' => "$changed game(s) have been voted on."]);
                 break;
             default:
                 return $response->withJson(['SUCCESS' => false, 'MSG' => "Invalid Action"]);
