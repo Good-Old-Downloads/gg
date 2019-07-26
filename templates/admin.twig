@@ -79,6 +79,14 @@
     <input type="submit" name="notice_save" value="{{ 'Save'|trans }}">
 </form>
 <hr>
+<h3>{{ 'Donation Tracker:'|trans }}</h3>
+<p>Yearly donation tracker. Each "year" will start on August 1st.</p>
+<form method="post">
+    Amount: <input type="number" step="any" name="donations_amount" value="{{ $
+    Goal: <input type="number" step="any" name="donations_goal" value="{{ dona$
+    <input type="submit" name="donations_save" value="{{ 'Save'|trans }}">
+</form>
+<hr>
 <h3>{{ 'Edit Hosters:'|trans }}</h3>
 <p>Have to change <code>host</code> column in <code>files</code> table if id is changed.</p>
 <table>
