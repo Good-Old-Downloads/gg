@@ -16,13 +16,22 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #}
 <h1>{{ 'Donate'|trans }}</h1>
-{% set donate_starter %}
-    {% trans %}
-Love this site? Help pay server costs by donating! Only accept Bitcoin: 3PEnMtoDqgqANwyCXffMtVhthK22RKRJrW
-    {% notes %}
-        You can add newlines if needed.
-    {% endtrans %}
-{% endset %}
-<p>
-{{ donate_starter|nl2br }}
-</p>
+
+<h3>{{ 'Do you love this site? Then donate to help keep it alive! So, how can YOU donate?'|trans }}</h3>
+
+<br>
+
+<h3>{{ 'Send some Bitcoin!'|trans }}</h3>
+<p>{{ 'The best way is by sending Bitcoin to help us pay server costs. All games are archived on a high-speed storage server in a data center.'|trans }}</p>
+
+<h3>{{ 'Where can I get some of this Bitcoin?'|trans }}</h3>
+<p>{{ 'One place you can buy Bitcoin is at %coinbase%.'|trans|nl2br|replace({'%coinbase%': '<a href="https://www.coinbase.com" target="_blank">Coinbase</a>'})|raw }}</p>
+
+<h3>{{ 'OK, so I have the Bitcoin. What next?'|trans }}</h3>
+<p>{{ 'Awesome, send it to our address: 3PEnMtoDqgqANwyCXffMtVhthK22RKRJrW'|trans }}</p>
+
+<h3>{{ "I can't buy Bitcoin. Any alternative way?"|trans }}</h3>
+<p>{{ 'The next easiest way to donate is to purchase a game we are missing on the site from GOG.com and gift or upload it for us. For security reasons, a new GOG.com account will be created for each donated game and tied to that account. If you are interested in this option, please reach out to us for more information via Tox. To communicate, you will need a client such as %qtox% and our ID: B1C1F29D9F7B6D19EA670EAABC2FCD29FEA8A5720FAAF458CDB73AA3A18D7C2CEAF7B88EFC11.'|trans|nl2br|replace({'%qtox%': '<a href="https://qtox.github.io/" target="_blank">qTox</a>'})|raw }}</p>
+
+<h3>{{ "I can't buy games either!"|trans }}</h3>
+<p>{{ 'Well, that is a shame! Check back for more donation options in the future.'|trans }}</p>
