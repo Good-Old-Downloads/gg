@@ -82,8 +82,8 @@
 <h3>{{ 'Donation Tracker:'|trans }}</h3>
 <p>Yearly donation tracker.</p>
 <form method="post">
-    Amount: <input type="number" step="any" name="donations_amount" value="{{ $
-    Goal: <input type="number" step="any" name="donations_goal" value="{{ dona$
+    Amount: <input type="number" step="any" name="donations_amount" value="{{ donations.amount }}">
+    Goal: <input type="number" step="any" name="donations_goal" value="{{ donations.goal }}">
     <input type="submit" name="donations_save" value="{{ 'Save'|trans }}">
 </form>
 <hr>
