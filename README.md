@@ -14,6 +14,9 @@ Preferred:
 Alternative:
 1. Go to: https://goggamespc7v6z5e.onion.ws/ 
 
+Want to run your own copy?
+Check out [GOG Games: Docker Edition](https://github.com/MachineGunnur/GOG-Games-Docker-Edition) if you would like to run your own copy!
+
 ## Authors & Credits
 * MachineGunnur
 * Lindre - thanks for help friend with english :)
