@@ -14,13 +14,13 @@ Preferred:
 Alternative:
 1. Go to: https://goggamespc7v6z5e.onion.ws/ 
 
-Want to run your own copy?
+# Want to run your own copy?
 Check out [GOG Games: Docker Edition](https://github.com/MachineGunnur/GOG-Games-Docker-Edition) if you would like to run your own copy!
 
-## Authors & Credits
+# Authors & Credits
 * MachineGunnur
 * Lindre - thanks for help friend with english :)
 * GOD Team - thanks for giving us site source code on github
 
-## License
+# License
 This project is licensed under the GNU General Public License v3.0. See [LICENSE](LICENSE) for details or this [TL;DR](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)).
