@@ -12,6 +12,7 @@ Preferred:
 2. Once installed, visit goggamespc7v6z5e.onion in Tor Browser
 
 Alternative:
+**WARNING: You will encounter various bugs if you use this method to access to website. We can't fix them. You have been warned!**
 1. Go to: https://goggamespc7v6z5e.onion.ws/ 
 
 # Want to run your own copy?
