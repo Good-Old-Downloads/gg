@@ -13,7 +13,7 @@ Preferred:
 
 Alternative:
 
-**WARNING: You will encounter various bugs if you use this method to access to website. We can't fix them. You have been warned!**
+**WARNING: You will encounter various bugs if you use this method to access the hidden service. We can't fix them. You have been warned!**
 1. Go to: https://goggamespc7v6z5e.onion.ws/ 
 
 # Want to run your own copy?
