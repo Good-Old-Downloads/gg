@@ -180,7 +180,7 @@ $container['visualCaptcha'] = function ($container) {
 $app->add(function ($request, $response, $next) {
     $nonceJS = base64_encode(random_bytes(24));
     $nonceCSS = base64_encode(random_bytes(24));
-    $CORS = "default-src https:; script-src 'self' 'nonce-$nonceJS'; object-src 'self'; style-src 'self' 'nonce-$nonceCSS'; img-src 'self' images.gog.com; media-src 'self'; child-src 'none'; font-src 'self'; connect-src 'self' https://api.gog.com";
+    $CORS = "default-src https:; script-src 'self' 'nonce-$nonceJS'; object-src 'self'; style-src 'self' 'nonce-$nonceCSS'; img-src 'self' images.gog-statics.com; media-src 'self'; child-src 'none'; font-src 'self'; connect-src 'self' https://api.gog.com";
 
     // Add global variable to Twig
     $view = $this->get('view');
