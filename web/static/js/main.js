@@ -322,8 +322,8 @@ function toggleDetails(el){
 
         injectCSS.innerHTML = '';
         imagesLoaded(gameDetailsBgImage, { background: true }, function(instance) {
-            injectCSS.innerHTML = '#game-details > .container:before {background-image: url("https://images.gog.com/'+game.bg_id+'.jpg");}';
-            gameDetailsBgImage.style.backgroundImage = 'url(https://images.gog.com/'+game.bg_id+'.jpg)';
+            injectCSS.innerHTML = '#game-details > .container:before {background-image: url("https://images.gog-statics.com/'+game.bg_id+'.jpg");}';
+            gameDetailsBgImage.style.backgroundImage = 'url(https://images.gog-statics.com/'+game.bg_id+'.jpg)';
             gameDetailsBgImage.classList.add('fadein');
             gameDetails.classList.add('fadein');
         });
