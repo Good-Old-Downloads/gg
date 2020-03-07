@@ -170,7 +170,7 @@ function updateImages($dbh){
         if ($game['bg_id'] === null) {
             // Try downloading backgrounds
             $bg = $json['images']['background'];
-            preg_match('/gog\.com\/([a-z0-9]{64})\.jpg/', $bg, $bgmatch);
+            preg_match('/gog-statics\.com\/([a-z0-9]{64})\.jpg/', $bg, $bgmatch);
             $bg_id = $bgmatch[1];
             $updateBG->execute();
             addLog("Added background for $title");
@@ -179,7 +179,7 @@ function updateImages($dbh){
         if ($game['thumb_id'] === null) {
             // Try thumbnail
             $thumb = $json['images']['logo'];
-            preg_match('/gog\.com\/([a-z0-9]{64})_glx_logo\.jpg/', $thumb, $thumbmatch);
+            preg_match('/gog-statics\.com\/([a-z0-9]{64})_glx_logo\.jpg/', $thumb, $thumbmatch);
             $thumb_id = $thumbmatch[1];
             $updateThumb->execute();
             addLog("Added thumbnail for $title");
