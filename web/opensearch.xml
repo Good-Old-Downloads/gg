@@ -2,8 +2,8 @@
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
   <ShortName>GOG Games Search</ShortName>
   <Description>Search GOG Games</Description>
-  <Url type="text/html" method="get" template="http://goggamespc7v6z5e.onion/search/{searchTerms}"/>
-  <Image width="16" height="16">http://goggamespc7v6z5e.onion/static/img/favicon-16.png</Image>
+  <Url type="text/html" method="get" template="https://gog-games.com/search/{searchTerms}"/>
+  <Image width="16" height="16">https://gog-games.com//static/img/favicon-16.png</Image>
   <InputEncoding>UTF-8</InputEncoding>
-  <SearchForm>http://goggamespc7v6z5e.onion/</SearchForm>
+  <SearchForm>https://gog-games.com//</SearchForm>
 </OpenSearchDescription>
