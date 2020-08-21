@@ -415,13 +415,11 @@ a {
     margin: 10px 0 0 0;
     background: #fff;
     box-shadow: 0 0 3px rgba(25,25,25,0.35);
-    border-radius: 4px;
     &:hover {
       opacity: .97;
       text-decoration: none;
     }
     .image {
-      border-radius: 4px 0 0 4px;
       overflow: hidden;
       width: 196px;
       img {
