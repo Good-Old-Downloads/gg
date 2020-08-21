@@ -38,7 +38,7 @@
     <div class="bg"></div>
   <div id="game-details">
     <div class="container index">
-        <h1>{{ game.title }} <a href="{{ game.url }}" target="_blank" title="{{ 'Go to GOG Store'|trans }}"><i class="fas fa-shopping-cart"></i></a> <a href="https://www.gogdb.org/product/{{ game.id }}" target="_blank" title="{{ 'Go to GOGDB'|trans }}"><i class="fas fa-database"></i></a></h1>
+        <h1>{{ game.title }} <a href="{{ game.url }}" target="_blank" rel="noreferrer" title="{{ 'Go to GOG Store'|trans }}"><i class="fas fa-shopping-cart"></i></a> <a href="https://www.gogdb.org/product/{{ game.id }}" target="_blank" title="{{ 'Go to GOGDB'|trans }}"><i class="fas fa-database"></i></a></h1>
         <div class="info"><a href="/search/all/1/title/asc/{{ game.category|lower|url_encode }}">{{ game.category }}</a> | <a href="/search/all/1/title/asc/any/{{ game.developer|lower|url_encode }}">{{ game.developer }}</a></div>
         <button class="btn blue toggle-links no-js-hide">{{ 'DOWNLOAD'|trans }}</button>
         <button class="btn green no-js-hide __vote-modal-trigger {% if game.can_vote == false %}hidden{% endif %}" data-id="{{ game.id }}">{{ 'VOTE FOR RE-UPLOAD'|trans }}</button>
