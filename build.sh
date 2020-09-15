@@ -1,2 +1,2 @@
 #!/bin/bash
-cat "web/static/js/prepend/polyfills.js" "web/static/js/prepend/mustache.js" "web/static/js/prepend/scrollTo.js" "web/static/js/prepend/imagesloaded.pkgd.js" "web/static/js/prepend/clipboard.js" "web/static/js/prepend/filesize.min.js" "web/static/js/prepend/visualcaptcha.vanilla.js" "web/static/js/main.js" | uglifyjs --compress --mangle --output "web/static/js/main.min.js"
+cat "web/static/js/prepend/polyfills.js" "web/static/js/prepend/mustache.js" "web/static/js/prepend/scrollTo.js" "web/static/js/prepend/imagesloaded.pkgd.js" "web/static/js/prepend/clipboard.js" "web/static/js/prepend/filesize.min.js" "web/static/js/main.js" | uglifyjs --compress --mangle --output "web/static/js/main.min.js"

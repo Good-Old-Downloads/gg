@@ -37,5 +37,11 @@ $CONFIG = [
         "HOSTS" => [
             "localhost"
         ]
+    ],
+
+    // reCaptcha
+    "CAPTCHA" => [
+        "SECRET" => "",
+        "SITE" => ""
     ]
 ];
