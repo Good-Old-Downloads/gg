@@ -41,7 +41,7 @@
   <meta property="twitter:site" content="@goddownloads">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="GoodOldDownloads.com">
-  <style nonce="{{ nonce.style }}">#donate-bar:before{width:{{ (donations.percent > 100) ? 100 : donations.percent }}% !important;}</style>
+  <style nonce="{{ nonce.style }}">#donate-bar:before{width:{{ (donations.percent > 100) ? 100 : donations.percent }}% !important;}.grecaptcha-badge{visibility: hidden;}</style>
   <style nonce="{{ nonce.style }}" id="css-inject"></style>
   {% block meta %}
     <meta property="og:title" content="GOG Games">
@@ -85,12 +85,11 @@
     <label class="modal__bg" for="modal-captcha"></label>
     <div class="modal__inner nopad">
       <label class="modal__close" for="modal-captcha"></label>
+      <h1 class="txt-center">{{ 'Vote'|trans }}</h1>
       <div id="vote-captcha-success">
-        <h1>{{ 'Successfully voted!'|trans }}</h1>
         <p>{% trans %}Check the <a href="/queue">Queue</a> to see it's position!{% endtrans %}</p>
       </div>
-      <div id="vote-captcha"></div>
-      <div id="vote-captcha-message"></div>
+      <div id="vote-captcha" class="txt-center"></div>
       <div class="txt-center">
         <button class="btn green hidden __vote">{{ 'VOTE'|trans }}</button>
       </div>
@@ -120,6 +119,7 @@
       {% endif %}
     </div>
   </header>
+
   {% block content %}{% endblock content %}
   {% if was_user and session.user == config.USER.NAME %}
     <script nonce="{{ nonce.script }}">
@@ -130,7 +130,9 @@
   {% if language %}
     <script nonce="{{ nonce.script }}">moment.locale("{{ language['ISO-639-1'] }}");</script>
   {% endif %}
+  <script nonce="{{ nonce.script }}">const RECAPTCHA_KEY="{{ config.CAPTCHA.SITE }}";</script>
   {{ loadJS(['/static/js/main.min.js'], []) }}
   {% block scripts %}{% endblock scripts %}
+  <script nonce="{{ nonce.script }}" src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&amp;render=explicit" async defer></script>
 </body>
 </html>
