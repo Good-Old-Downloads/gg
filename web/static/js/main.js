@@ -122,6 +122,11 @@ var http = new http();
 var time = new timeyWimey();
 time.init();
 
+var captchaReady = false;
+var onloadCallback = function() {
+    captchaReady = true;
+};
+
 function toggleScroll(){
     if (document.body.classList[0] === 'no-scroll') {
         document.body.classList.remove('no-scroll');
@@ -525,8 +530,6 @@ if (document.querySelector('.container.game')) {
     });
 }
 
-
-
 document.addEventListener('click', function(evt) {
     if (evt.target && evt.target.matches('label.item, label.item *')) {
         evt.stopPropagation();
@@ -551,60 +554,16 @@ document.addEventListener('click', function(evt) {
     }
 }, false);
 
-var captcha;
-document.addEventListener('click', function(evt) {
-    if (evt.target && evt.target.matches('.__vote-modal-trigger')) {
-        evt.stopPropagation();
-        var id =  parseInt(evt.target.dataset.id);
-        voteBtn.classList.add('hidden');
-        document.getElementById('vote-captcha-message').classList.add('hidden');
-        document.getElementById('vote-captcha').classList.remove('hidden');
-        document.getElementById('vote-captcha-success').classList.add('hidden');
-        captcha = visualCaptcha('vote-captcha', {
-            captcha: {
-                numberOfImages: 9,
-                url: window.location.origin+'/annoyanator',
-                randomParam: 'what-are-you-looking-at',
-                routes: {
-                    start: '/begin',
-                    image: '/img',
-                },
-                callbacks: {
-                    loaded: function(captcha){
-                        // Open modal
-                        setModalHeight('#modal-captcha');
-                        document.getElementById('modal-captcha').checked = true;
-                        captcha.gameid = id; // hacky hack so vote button can get it
-                        captcha.voteTrigger = evt.target; // hacky hack so vote button can get it
-
-                        // Stop # when clicking anchors
-                        var anchorOptions = document.getElementById('vote-captcha').getElementsByClassName('img');
-                        var anchorList = Array.prototype.slice.call(anchorOptions);
-                        anchorList.forEach(function(anchor){
-                            anchor.addEventListener('click', function(evt){
-                                evt.preventDefault();
-                                voteBtn.classList.remove('hidden');
-                                setModalHeight('#modal-captcha');
-                            }, false);
-                        });
-                    }
-                }
-            }
-        });
-    }
-}, false);
+var captcha = {response: false};
+var voteCaptchaId = null;
 
 // Validate when click vote button
 var voteBtn = document.getElementsByClassName('__vote')[0];
 voteBtn.addEventListener('click', function(evt){
     evt.preventDefault();
-    var captchaData = captcha.getCaptchaData();
-    if (captchaData.valid) {
-        var capName = captcha.imageFieldName();
-        var capValue = captchaData.value;
-        var postData = {id: captcha.gameid};
-        postData[capName] = capValue;
-        var captchaMsg = document.getElementById('vote-captcha-message');
+    if (captcha.response) {
+        var postData = {id: captcha.gameid, response: captcha.response};
+
         var captchaMsgSuccess = document.getElementById('vote-captcha-success');
         http.post({
             url: '/api/public/vote',
@@ -614,18 +573,47 @@ voteBtn.addEventListener('click', function(evt){
             if (ret.SUCCESS) {
                 captcha.voteTrigger.classList.add('hidden');
                 document.getElementById('vote-captcha').classList.add('hidden');
-                captchaMsgSuccess.classList.remove('hidden');
                 voteBtn.classList.add('hidden');
-                captchaMsg.classList.add('hidden');
+                captchaMsgSuccess.classList.remove('hidden');
                 setModalHeight('#modal-captcha');
             } else {
-                captcha.refresh();
                 captchaMsgSuccess.classList.add('hidden');
                 voteBtn.classList.add('hidden');
-                captchaMsg.classList.remove('hidden');
-                captchaMsg.classList.add('txt-red');
-                captchaMsg.innerText = ret.MSG;
+                grecaptcha.reset(voteCaptchaId);
             }
         });
+    }
+}, false);
+
+document.addEventListener('click', function(evt) {
+    if (evt.target && evt.target.matches('.__vote-modal-trigger')) {
+        evt.stopPropagation();
+        voteBtn.classList.add('hidden');
+        document.getElementById('vote-captcha').classList.remove('hidden');
+        document.getElementById('vote-captcha-success').classList.add('hidden');
+
+        document.getElementById('modal-captcha').checked = true;
+
+        var id =  parseInt(evt.target.dataset.id);
+        if (captchaReady) {
+            voteBtn.classList.remove('hidden');
+            setModalHeight('#modal-captcha');
+            if (voteCaptchaId === null) {
+                voteCaptchaId = grecaptcha.render('vote-captcha', {
+                    'sitekey': RECAPTCHA_KEY,
+                    'size': 'invisible',
+                    'badge': 'bottomright',
+                    'callback': function(response) {
+                        captcha.response = response;
+                        captcha.gameid = id;
+                        captcha.voteTrigger = evt.target;
+                        setModalHeight('#modal-captcha');
+                    }
+                });
+            }
+            grecaptcha.execute(voteCaptchaId);
+        } else {
+            alert('reCaptcha not loaded. Please refresh.');
+        }
     }
 }, false);
