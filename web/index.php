@@ -73,6 +73,8 @@ function getGame($id, $ipAddress) {
     $get->execute();
     $game = $get->fetch(\PDO::FETCH_ASSOC);
 
+    if (!$game) return false;
+
     $getHasVoted = $dbh->prepare("SELECT COUNT(*) as `has_voted` FROM `votes` WHERE `game_id` = :gameid AND `uid` = INET6_ATON(:ip)");
     $getHasVoted->bindParam(':gameid', $id, \PDO::PARAM_STR);
     $getHasVoted->bindParam(':ip', $ipAddress, \PDO::PARAM_STR);
@@ -169,18 +171,11 @@ $app = new \Slim\App($container);
 // Get ip address
 $app->add(new RKA\Middleware\IpAddress(true));
 
-// Inject VisualCaptcha into app
-$container['visualCaptcha'] = function ($container) {
-    global $CONFIG;
-    $session = new \visualCaptcha\Session();
-    return new \visualCaptcha\Captcha($session, "{$CONFIG['BASEDIR']}/captcha", json_decode(file_get_contents("{$CONFIG['BASEDIR']}/captcha/images.json"), true));
-};
-
 // Set headers for all requests
 $app->add(function ($request, $response, $next) {
     $nonceJS = base64_encode(random_bytes(24));
     $nonceCSS = base64_encode(random_bytes(24));
-    $CORS = "default-src https:; script-src 'self' 'nonce-$nonceJS'; object-src 'self'; style-src 'self' 'nonce-$nonceCSS'; img-src 'self' images.gog-statics.com; media-src 'self'; child-src 'none'; font-src 'self'; connect-src 'self' https://api.gog.com";
+    $CORS = "default-src https:; script-src 'self' 'nonce-$nonceJS'; object-src 'self'; style-src 'self' 'nonce-$nonceCSS'; img-src 'self' images.gog-statics.com; media-src 'self'; child-src 'none'; font-src 'self'; connect-src 'self' https://api.gog.com; frame-src https://www.google.com/recaptcha/";
 
     // Add global variable to Twig
     $view = $this->get('view');
@@ -789,6 +784,9 @@ $app->get('/game/{game_id}', function ($request, $response, $args) {
         $gameId = $getId->fetchColumn();
         $game = getGame($gameId, $ipAddress);
     }
+    if (!$game) {
+        throw new \Slim\Exception\NotFoundException($request, $response);
+    }
     return $this->view->render($response, 'game.twig', ['game' => [$game]]);
 });
 
@@ -1283,31 +1281,21 @@ $app->group('/api/public', function () use ($app) {
         global $dbh, $CONFIG;
         $ipAddress = $request->getAttribute('ip_address');
         if (isset($_POST['id']) && is_numeric($_POST['id'])) {
-            $captcha = $this->get('visualCaptcha');
             $id = $_POST['id'];
 
             // check captcha
-            $frontendData = $captcha->getFrontendData();
-            $captchaError = false;
-            if (!$frontendData) {
-                $captchaError = _('Invalid Captcha Data');
-            } else {
-                // If an image field name was submitted, try to validate it
-                if ($imageAnswer = $request->getParsedBody()[$frontendData['imageFieldName']]){
-                    // If incorrect
-                    if (!$captcha->validateImage($imageAnswer)){
-                        $captchaError = _('Incorrect Captcha Image. Please try again.');
-                    }
-                    // Generate new captcha or else the user can just rety the old one
-                    $howMany = count($captcha->getImageOptions());
-                    $captcha->generate($howMany);
-                } else {
-                    $captchaError = _('Invalid Captcha Data');
-                }
-            }
+            $client = new GuzzleHttp\Client();
+            $res = $client->request('POST', "https://www.google.com/recaptcha/api/siteverify", [
+                'form_params' => [
+                    'secret' => $CONFIG['CAPTCHA']['SECRET'],
+                    'response' => $_POST['response'],
+                    'remoteip' => $ipAddress
+                ]
+            ]);
+            $json = json_decode($res->getBody(), true);
 
-            if ($captchaError !== false) {
-                return $response->withJson(['SUCCESS' => false, 'MSG' => $captchaError]);
+            if (!$json['success']) {
+                return $response->withJson(['SUCCESS' => false, 'MSG' => null]);
             }
 
             // if not allowing drive voting
@@ -1359,35 +1347,6 @@ $app->group('/api/public', function () use ($app) {
             }
         }
         return $response->withJson(['SUCCESS' => false, 'MSG' => 'Invalid Game.']);
-    });
-});
-
-$app->group('/annoyanator', function () use ($app) {
-    // Populates captcha data into session object
-    // -----------------------------------------------------------------------------
-    // @param howmany is required, the number of images to generate
-    $app->get('/begin/{howmany}', function ($request, $response, $args) {
-        $captcha = $this->get('visualCaptcha');
-        $captcha->generate($args['howmany']);
-        return $response->withJson($captcha->getFrontEndData());
-    });
-
-    // Streams captcha images from disk
-    // -----------------------------------------------------------------------------
-    // @param index is required, the index of the image you wish to get
-    $app->get('/img/{index}', function ($request, $response, $args) {
-        $captcha = $this->get('visualCaptcha');
-        $headers = [];
-        $image = $captcha->streamImage($headers, $args['index'], false);
-        if (!$image) {
-            throw new \Slim\Exception\NotFoundException($request, $response);
-        } else {
-            // Set headers
-            foreach ($headers as $key => $val) {
-                $response = $response->withHeader($key, $val);
-            }
-            return $response;
-        }
     });
 });
 
