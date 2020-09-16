@@ -146,7 +146,12 @@ function setModalHeight(el){
     for (var i = 0; i < openedModal.childNodes.length; i++) {
         var node = openedModal.childNodes[i];
         var elHeight = node.offsetHeight;
+
         if (!isNaN(elHeight)) {
+            if (node.classList.contains('modal__close')) {
+                continue;
+            }
+
             var style = getComputedStyle(node);
             extra = parseInt(style.marginTop) + parseInt(style.marginBottom);
             height = height+elHeight+extra;
@@ -602,7 +607,7 @@ document.addEventListener('click', function(evt) {
                 voteCaptchaId = grecaptcha.render('vote-captcha', {
                     'sitekey': RECAPTCHA_KEY,
                     'size': 'invisible',
-                    'badge': 'bottomright',
+                    'badge': 'inline',
                     'callback': function(response) {
                         captcha.response = response;
                         captcha.gameid = id;
