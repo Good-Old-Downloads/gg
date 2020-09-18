@@ -149,6 +149,23 @@ function getGame($id, $ipAddress) {
     return $game;
 }
 
+function validateCaptcha($secret, $response, $ip) {
+    $client = new GuzzleHttp\Client();
+    $res = $client->request('POST', "https://www.google.com/recaptcha/api/siteverify", [
+        'form_params' => [
+            'secret' => $secret,
+            'response' => $response,
+            'remoteip' => $ip
+        ]
+    ]);
+    $json = json_decode($res->getBody(), true);
+
+    if (!$json['success']) {
+        return false;
+    }
+    return true;
+}
+
 $configuration = [
     'settings' => [
         'displayErrorDetails' => $CONFIG["DEV"],
@@ -767,8 +784,8 @@ $app->get('/logout', function ($request, $response, $args) {
     return $response->withRedirect("/", 302);
 });
 
-$app->get('/game/{game_id}', function ($request, $response, $args) {
-    global $dbh;
+$app->map(['GET', 'POST'], '/game/{game_id}', function ($request, $response, $args) {
+    global $dbh, $CONFIG;
     $ipAddress = $request->getAttribute('ip_address');
     if (!isset($args["game_id"])) {
         echo "nope";
@@ -787,7 +804,12 @@ $app->get('/game/{game_id}', function ($request, $response, $args) {
     if (!$game) {
         throw new \Slim\Exception\NotFoundException($request, $response);
     }
-    return $this->view->render($response, 'game.twig', ['game' => [$game]]);
+
+    if (!isset($_POST['response']) || !validateCaptcha($CONFIG['CAPTCHA']['SECRET'], $_POST['response'], $ipAddress)) {
+        return $this->view->render($response, 'game.twig', ['game' => [$game], 'validcaptcha' => false]);
+    }
+
+    return $this->view->render($response, 'game.twig', ['game' => [$game], 'validcaptcha' => true]);
 });
 
 // API
@@ -1273,9 +1295,15 @@ $setVote->execute();
 
 $app->group('/api/public', function () use ($app) {
     $app->get('/game', function ($request, $response, $args) {
+        global $CONFIG;
         $ipAddress = $request->getAttribute('ip_address');
+
+        if (!isset($_GET['response']) || !validateCaptcha($CONFIG['CAPTCHA']['SECRET'], $_GET['response'], $ipAddress)) {
+            return $response->withJson(['SUCCESS' => false, 'MSG' => null]);
+        }
+
         $game = getGame($_GET['id'], $ipAddress);
-        return $response->withJson($game);
+        return $response->withJson(['SUCCESS' => true, 'MSG' => $game]);
     });
     $app->post('/vote', function ($request, $response, $args) {
         global $dbh, $CONFIG;
@@ -1284,17 +1312,7 @@ $app->group('/api/public', function () use ($app) {
             $id = $_POST['id'];
 
             // check captcha
-            $client = new GuzzleHttp\Client();
-            $res = $client->request('POST', "https://www.google.com/recaptcha/api/siteverify", [
-                'form_params' => [
-                    'secret' => $CONFIG['CAPTCHA']['SECRET'],
-                    'response' => $_POST['response'],
-                    'remoteip' => $ipAddress
-                ]
-            ]);
-            $json = json_decode($res->getBody(), true);
-
-            if (!$json['success']) {
+            if (!validateCaptcha($CONFIG['CAPTCHA']['SECRET'], $_POST['response'], $ipAddress)) {
                 return $response->withJson(['SUCCESS' => false, 'MSG' => null]);
             }
 
