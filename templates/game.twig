@@ -28,8 +28,7 @@
 <meta property="og:image:height" content="110">
 <meta property="description" content="Download {{ game.title }} GOG for free with direct links.">
 <meta property="og:description" content="Download {{ game.title }} GOG for free with direct links.">
-<style nonce="{{ nonce.style }}">.container.game>.bg{background-image: url(https://images.gog-statics.com/{{ game.bg_id }}.jpg) !important;}</style>
-<script nonce="{{ nonce.script }}">dank = "{{ game.dank }}";memes = {{ game.memes }};</script> {# Load as fast as possible #}
+<style nonce="{{ nonce.style }}">.container.game>.bg{background-image: url(https://images.gog-statics.com/{{ game.bg_id }}.jpg) !important;}#captcha-submit-form {display:inline;}#game-details .items-links-block.open {height:auto;}</style>
 {% endblock meta %}
 
 {% block content %}
@@ -40,81 +39,90 @@
     <div class="container index">
         <h1>{{ game.title }} <a href="{{ game.url }}" target="_blank" rel="noreferrer" title="{{ 'Go to GOG Store'|trans }}"><i class="fas fa-shopping-cart"></i></a> <a href="https://www.gogdb.org/product/{{ game.id }}" target="_blank" title="{{ 'Go to GOGDB'|trans }}"><i class="fas fa-database"></i></a></h1>
         <div class="info"><a href="/search/all/1/title/asc/{{ game.category|lower|url_encode }}">{{ game.category }}</a> | <a href="/search/all/1/title/asc/any/{{ game.developer|lower|url_encode }}">{{ game.developer }}</a></div>
-        <button class="btn blue toggle-links no-js-hide">{{ 'DOWNLOAD'|trans }}</button>
+        {% if validcaptcha %}
+            <button class="btn blue toggle-links no-js-hide">{{ 'DOWNLOAD'|trans }}</button>
+        {% else %}
+            <form id="captcha-submit-form" action="" method="POST">
+                <input type="hidden" name="response">
+                <button class="g-recaptcha btn blue" data-sitekey="{{ config.CAPTCHA.SITE }}" data-callback="onCaptchaComplete">{{ 'DOWNLOAD'|trans }}</button>
+            </form>
+        {% endif %}
         <button class="btn green no-js-hide __vote-modal-trigger {% if game.can_vote == false %}hidden{% endif %}" data-id="{{ game.id }}">{{ 'VOTE FOR RE-UPLOAD'|trans }}</button>
         <button class="btn toggle-changelog">{{ 'CHANGELOG'|trans }}</button>
-        <div class="items-links-block">
-            {% if game.links.GAME %}
-                <div class="items-group">
-                    <div class="title">{{ 'Game Download Links'|trans }}</div>
-                    {% for host in game.links.GAME %}
-                        <div class="item-expand-wrap">
-                            {% spaceless %}
-                            <div class="open-all no-js-hide" title="{{ 'Open all Links (Allow Popups)'|trans }}"><i class="fas fa-external-link-square-alt"></i></div>
-                            <div class="clip no-js-hide" title="{{ 'Copy Links to Clipboard'|trans }}"><i class="fas fa-copy"></i></div>
-                            <label class="item" for="{{ host.slug }}_game" title="{{ host.name }}">
-                                <i class="fas fa-plus expand-icon" title="{{ 'Show Download Links'|trans }}" data-toggled-text="{{ 'Hide Download Links'|trans }}"></i>
-                                {{ host.icon|raw }}
-                                <span> {{ host.name }} {% if (host.slug == 'gdrive') or (host.slug == 'gdrive_folder') %}<a class="btn drive-bypass-btn" href="/google-drive-bypass-tutorial" target="_blank" title='BYPASS GOOGLE DRIVE QUOTA TUTORIAL'>BYPASS GOOGLE DRIVE QUOTA TUTORIAL</a>{% endif %}</span>
-                            </label>
-                            {% endspaceless %}
-                            <input class="item-expand-check" id="{{ host.slug }}_game" type="checkbox">
-                            <div class="items-group expand">
-                                {% for link in host.links %}
-                                    <a class="item" title="{{ link.link }}" href="{{ link.link }}" target="_blank">{{ link.name }}</a>
-                                {% endfor %}
+        <div class="items-links-block {% if validcaptcha %}open{% endif %}">
+            {% if validcaptcha %}
+                {% if game.links.GAME %}
+                    <div class="items-group">
+                        <div class="title">{{ 'Game Download Links'|trans }}</div>
+                        {% for host in game.links.GAME %}
+                            <div class="item-expand-wrap">
+                                {% spaceless %}
+                                <div class="open-all no-js-hide" title="{{ 'Open all Links (Allow Popups)'|trans }}"><i class="fas fa-external-link-square-alt"></i></div>
+                                <div class="clip no-js-hide" title="{{ 'Copy Links to Clipboard'|trans }}"><i class="fas fa-copy"></i></div>
+                                <label class="item" for="{{ host.slug }}_game" title="{{ host.name }}">
+                                    <i class="fas fa-plus expand-icon" title="{{ 'Show Download Links'|trans }}" data-toggled-text="{{ 'Hide Download Links'|trans }}"></i>
+                                    {{ host.icon|raw }}
+                                    <span> {{ host.name }} {% if (host.slug == 'gdrive') or (host.slug == 'gdrive_folder') %}<a class="btn drive-bypass-btn" href="/google-drive-bypass-tutorial" target="_blank" title='BYPASS GOOGLE DRIVE QUOTA TUTORIAL'>BYPASS GOOGLE DRIVE QUOTA TUTORIAL</a>{% endif %}</span>
+                                </label>
+                                {% endspaceless %}
+                                <input class="item-expand-check" id="{{ host.slug }}_game" type="checkbox">
+                                <div class="items-group expand">
+                                    {% for link in host.links %}
+                                        <a class="item" title="{{ link.link }}" href="{{ link.link }}" target="_blank">{{ link.name }}</a>
+                                    {% endfor %}
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-            {% if game.links.PATCHES %}
-                <div class="items-group">
-                    <div class="title">{{ 'Patch/Other Download Links'|trans }}</div>
-                    {% for host in game.links.PATCHES %}
-                        <div class="item-expand-wrap">
-                            {% spaceless %}
-                            <div class="open-all no-js-hide" title="{{ 'Open all Links (Allow Popups)'|trans }}"><i class="fas fa-external-link-square-alt"></i></div>
-                            <div class="clip no-js-hide" title="{{ 'Copy Links to Clipboard'|trans }}"><i class="fas fa-copy"></i></div>
-                            <label class="item" for="{{ host.slug }}_patches" title="{{ host.name }}">
-                                <i class="fas fa-plus expand-icon" title="{{ 'Show Download Links'|trans }}" data-toggled-text="{{ 'Hide Download Links'|trans }}"></i>
-                                {{ host.icon|raw }}
-                                <span> {{ host.name }} {% if (host.slug == 'gdrive') or (host.slug == 'gdrive_folder') %}<a class="btn drive-bypass-btn" href="/google-drive-bypass-tutorial" target="_blank" title='BYPASS GOOGLE DRIVE QUOTA TUTORIAL'>BYPASS GOOGLE DRIVE QUOTA TUTORIAL</a>{% endif %}</span>
-                            </label>
-                            {% endspaceless %}
-                            <input class="item-expand-check" id="{{ host.slug }}_patches" type="checkbox">
-                            <div class="items-group expand">
-                                {% for link in host.links %}
-                                    <a class="item" title="{{ link.link }}" href="{{ link.link }}" target="_blank">{{ link.name }}</a>
-                                {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if game.links.PATCHES %}
+                    <div class="items-group">
+                        <div class="title">{{ 'Patch/Other Download Links'|trans }}</div>
+                        {% for host in game.links.PATCHES %}
+                            <div class="item-expand-wrap">
+                                {% spaceless %}
+                                <div class="open-all no-js-hide" title="{{ 'Open all Links (Allow Popups)'|trans }}"><i class="fas fa-external-link-square-alt"></i></div>
+                                <div class="clip no-js-hide" title="{{ 'Copy Links to Clipboard'|trans }}"><i class="fas fa-copy"></i></div>
+                                <label class="item" for="{{ host.slug }}_patches" title="{{ host.name }}">
+                                    <i class="fas fa-plus expand-icon" title="{{ 'Show Download Links'|trans }}" data-toggled-text="{{ 'Hide Download Links'|trans }}"></i>
+                                    {{ host.icon|raw }}
+                                    <span> {{ host.name }} {% if (host.slug == 'gdrive') or (host.slug == 'gdrive_folder') %}<a class="btn drive-bypass-btn" href="/google-drive-bypass-tutorial" target="_blank" title='BYPASS GOOGLE DRIVE QUOTA TUTORIAL'>BYPASS GOOGLE DRIVE QUOTA TUTORIAL</a>{% endif %}</span>
+                                </label>
+                                {% endspaceless %}
+                                <input class="item-expand-check" id="{{ host.slug }}_patches" type="checkbox">
+                                <div class="items-group expand">
+                                    {% for link in host.links %}
+                                        <a class="item" title="{{ link.link }}" href="{{ link.link }}" target="_blank">{{ link.name }}</a>
+                                    {% endfor %}
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-            {% if game.links.GOODIES %}
-                <div class="items-group">
-                    <div class="title">{{ 'Goodies Download Links'|trans }}</div>
-                    {% for host in game.links.GOODIES %}
-                        <div class="item-expand-wrap">
-                            {% spaceless %}
-                            <div class="open-all no-js-hide" title="{{ 'Open all Links (Allow Popups)'|trans }}"><i class="fas fa-external-link-square-alt"></i></div>
-                            <div class="clip no-js-hide" title="{{ 'Copy Links to Clipboard'|trans }}"><i class="fas fa-copy"></i></div>
-                            <label class="item" for="{{ host.slug }}_goodies" title="{{ host.name }}">
-                                <i class="fas fa-plus expand-icon" title="{{ 'Show Download Links'|trans }}" data-toggled-text="{{ 'Hide Download Links'|trans }}"></i>
-                                {{ host.icon|raw }}
-                                <span> {{ host.name }} {% if (host.slug == 'gdrive') or (host.slug == 'gdrive_folder') %}<a class="btn drive-bypass-btn" href="/google-drive-bypass-tutorial" target="_blank" title='BYPASS GOOGLE DRIVE QUOTA TUTORIAL'>BYPASS GOOGLE DRIVE QUOTA TUTORIAL</a>{% endif %}</span>
-                            </label>
-                            {% endspaceless %}
-                            <input class="item-expand-check" id="{{ host.slug }}_goodies" type="checkbox">
-                            <div class="items-group expand">
-                                {% for link in host.links %}
-                                    <a class="item" title="{{ link.link }}" href="{{ link.link }}" target="_blank">{{ link.name }}</a>
-                                {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if game.links.GOODIES %}
+                    <div class="items-group">
+                        <div class="title">{{ 'Goodies Download Links'|trans }}</div>
+                        {% for host in game.links.GOODIES %}
+                            <div class="item-expand-wrap">
+                                {% spaceless %}
+                                <div class="open-all no-js-hide" title="{{ 'Open all Links (Allow Popups)'|trans }}"><i class="fas fa-external-link-square-alt"></i></div>
+                                <div class="clip no-js-hide" title="{{ 'Copy Links to Clipboard'|trans }}"><i class="fas fa-copy"></i></div>
+                                <label class="item" for="{{ host.slug }}_goodies" title="{{ host.name }}">
+                                    <i class="fas fa-plus expand-icon" title="{{ 'Show Download Links'|trans }}" data-toggled-text="{{ 'Hide Download Links'|trans }}"></i>
+                                    {{ host.icon|raw }}
+                                    <span> {{ host.name }} {% if (host.slug == 'gdrive') or (host.slug == 'gdrive_folder') %}<a class="btn drive-bypass-btn" href="/google-drive-bypass-tutorial" target="_blank" title='BYPASS GOOGLE DRIVE QUOTA TUTORIAL'>BYPASS GOOGLE DRIVE QUOTA TUTORIAL</a>{% endif %}</span>
+                                </label>
+                                {% endspaceless %}
+                                <input class="item-expand-check" id="{{ host.slug }}_goodies" type="checkbox">
+                                <div class="items-group expand">
+                                    {% for link in host.links %}
+                                        <a class="item" title="{{ link.link }}" href="{{ link.link }}" target="_blank">{{ link.name }}</a>
+                                    {% endfor %}
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             {% endif %}
             {% if game.links == false %}
                 <div class="items-group">
@@ -155,3 +163,13 @@
   </div>
 </div>
 {% endblock content %}
+
+{% block scripts %}
+    <script nonce="{{ nonce.script }}">
+        function onCaptchaComplete(token) {
+            document.querySelector('#captcha-submit-form > input[name="response"]').value = token;
+            document.getElementById("captcha-submit-form").submit();
+        }
+    </script>
+    <script nonce="{{ nonce.script }}" src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock scripts %}
