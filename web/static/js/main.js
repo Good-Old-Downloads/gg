@@ -220,7 +220,14 @@ var memes;
 var detailsOpen = null;
 
 var currentURL = window.location.href; // URL to switch back to when closing details box
+
+var gameCaptchaId = null;
 function toggleDetails(el){
+    if (gameCaptchaId) {
+        grecaptcha.reset(gameCaptchaId);
+    }
+    gameCaptchaId = null;
+
     if (typeof(el) === 'undefined') {
         el = detailsOpen;
     }
@@ -287,78 +294,97 @@ function toggleDetails(el){
     gameDetailsBg.style.display = 'block';
     gameDetailsBg.style.transform = 'translateY('+amount+'px)';
 
+    if (captchaReady) {
+        if (gameCaptchaId === null) {
+            gameCaptchaId = grecaptcha.render('captcha-container', {
+                'sitekey': RECAPTCHA_KEY,
+                'size': 'invisible',
+                'badge': 'inline',
+                'callback': function(response) {
+                    http.get({
+                        url: '/api/public/game',
+                        data: {id: id, response: response}
+                    }, function(res){
+                        var res = JSON.parse(res);
+                        if (!res.SUCCESS) {
+                            grecaptcha.reset(gameCaptchaId);
+                            return;
+                        }
 
+                        var game = res.MSG;
 
-    http.get({
-        url: '/api/public/game',
-        data: {id: id}
-    }, function(res){
-        var game = JSON.parse(res);
-        dank = game.dank;
-        memes = game.memes;
-        if (game.uploading == 1) {
-            game.uploading = true;
-        } else {
-            game.uploading = false;
+                        dank = game.dank;
+                        memes = game.memes;
+                        if (game.uploading == 1) {
+                            game.uploading = true;
+                        } else {
+                            game.uploading = false;
+                        }
+                        game.uriencode = function () {
+                            return function (text, render) {
+                                return encodeURIComponent(render(text).toLowerCase());
+                            };
+                        };
+                        game.showdrivetut = function(){
+                            // this is bad and you should feel bad
+                            return function(text, render) {
+                                if(render(text) === 'gdrive' || render(text) === 'gdrive_folder'){
+                                    return ' <a class="btn drive-bypass-btn" href="/google-drive-bypass-tutorial" target="_blank" title="BYPASS GOOGLE DRIVE QUOTA TUTORIAL">BYPASS GOOGLE DRIVE QUOTA TUTORIAL</a>';
+                                }
+                            };
+                        };
+                        game.formatSize = function(){
+                            return function(text, render) {
+                                if (render(text) == '') {
+                                    return '';
+                                } else {
+                                    var bytes = parseInt(render(text));
+                                    var readable = filesize(bytes, 2, 'jedec'); // Match PHP
+                                    return readable;
+                                }
+                            };
+                        };
+                        var rendered = Mustache.render(gameDetailsTemplate.innerHTML, game);
+                        gameDetails.outerHTML = rendered;
+                        gameDetails = document.getElementById('game-details');
+                        history.replaceState(id, game.title, '/game/'+game.slug);
+                
+                        injectCSS.innerHTML = '';
+                        imagesLoaded(gameDetailsBgImage, { background: true }, function(instance) {
+                            injectCSS.innerHTML = '#game-details > .container:before {background-image: url("https://images.gog-statics.com/'+game.bg_id+'.jpg");}';
+                            gameDetailsBgImage.style.backgroundImage = 'url(https://images.gog-statics.com/'+game.bg_id+'.jpg)';
+                            gameDetailsBgImage.classList.add('fadein');
+                            gameDetails.classList.add('fadein');
+                        });
+                
+                        gameDetails.querySelector('.close').addEventListener('click', function(evt) {
+                            toggleDetails();
+                        });
+                
+                        // Load extra GOG info
+                        http.get({
+                            url: 'https://api.gog.com/products/'+id,
+                            data: {
+                                expand: 'changelog',
+                                x: Date.now()
+                            }
+                        }, function(res){
+                            var goginfo = JSON.parse(res);
+                            var changelog = goginfo.changelog;
+                            if (changelog) {
+                                gameDetails.getElementsByClassName('toggle-changelog')[0].classList.add('fadeIn');
+                                gameDetails.getElementsByClassName('changelog')[0].innerHTML = changelog;
+                            }
+                        });
+                    });
+                    detailsOpen = el; // set new current open details
+                }
+            });
         }
-        game.uriencode = function () {
-            return function (text, render) {
-                return encodeURIComponent(render(text).toLowerCase());
-            };
-        };
-        game.showdrivetut = function(){
-            // this is bad and you should feel bad
-            return function(text, render) {
-                if(render(text) === 'gdrive' || render(text) === 'gdrive_folder'){
-                    return ' <a class="btn drive-bypass-btn" href="/google-drive-bypass-tutorial" target="_blank" title="BYPASS GOOGLE DRIVE QUOTA TUTORIAL">BYPASS GOOGLE DRIVE QUOTA TUTORIAL</a>';
-                }
-            };
-        };
-        game.formatSize = function(){
-            return function(text, render) {
-                if (render(text) == '') {
-                    return '';
-                } else {
-                    var bytes = parseInt(render(text));
-                    var readable = filesize(bytes, 2, 'jedec'); // Match PHP
-                    return readable;
-                }
-            };
-        };
-        var rendered = Mustache.render(gameDetailsTemplate.innerHTML, game);
-        gameDetails.outerHTML = rendered;
-        gameDetails = document.getElementById('game-details');
-        history.replaceState(id, game.title, '/game/'+game.slug);
-
-        injectCSS.innerHTML = '';
-        imagesLoaded(gameDetailsBgImage, { background: true }, function(instance) {
-            injectCSS.innerHTML = '#game-details > .container:before {background-image: url("https://images.gog-statics.com/'+game.bg_id+'.jpg");}';
-            gameDetailsBgImage.style.backgroundImage = 'url(https://images.gog-statics.com/'+game.bg_id+'.jpg)';
-            gameDetailsBgImage.classList.add('fadein');
-            gameDetails.classList.add('fadein');
-        });
-
-        gameDetails.querySelector('.close').addEventListener('click', function(evt) {
-            toggleDetails();
-        });
-
-        // Load extra GOG info
-        http.get({
-            url: 'https://api.gog.com/products/'+id,
-            data: {
-                expand: 'changelog',
-                x: Date.now()
-            }
-        }, function(res){
-            var goginfo = JSON.parse(res);
-            var changelog = goginfo.changelog;
-            if (changelog) {
-                gameDetails.getElementsByClassName('toggle-changelog')[0].classList.add('fadeIn');
-                gameDetails.getElementsByClassName('changelog')[0].innerHTML = changelog;
-            }
-        });
-    });
-    detailsOpen = el; // set new current open details
+        grecaptcha.execute(gameCaptchaId);
+    } else {
+        alert('reCaptcha not loaded. Please refresh.');
+    }
 }
 
 var gameBlocks = document.getElementsByClassName('game-blocks');
@@ -559,15 +585,15 @@ document.addEventListener('click', function(evt) {
     }
 }, false);
 
-var captcha = {response: false};
+var voteCaptcha = {response: false};
 var voteCaptchaId = null;
 
 // Validate when click vote button
 var voteBtn = document.getElementsByClassName('__vote')[0];
 voteBtn.addEventListener('click', function(evt){
     evt.preventDefault();
-    if (captcha.response) {
-        var postData = {id: captcha.gameid, response: captcha.response};
+    if (voteCaptcha.response) {
+        var postData = {id: voteCaptcha.gameid, response: voteCaptcha.response};
 
         var captchaMsgSuccess = document.getElementById('vote-captcha-success');
         http.post({
@@ -576,7 +602,7 @@ voteBtn.addEventListener('click', function(evt){
         }, function(res){
             var ret = JSON.parse(res);
             if (ret.SUCCESS) {
-                captcha.voteTrigger.classList.add('hidden');
+                voteCaptcha.voteTrigger.classList.add('hidden');
                 document.getElementById('vote-captcha').classList.add('hidden');
                 voteBtn.classList.add('hidden');
                 captchaMsgSuccess.classList.remove('hidden');
@@ -609,9 +635,9 @@ document.addEventListener('click', function(evt) {
                     'size': 'invisible',
                     'badge': 'inline',
                     'callback': function(response) {
-                        captcha.response = response;
-                        captcha.gameid = id;
-                        captcha.voteTrigger = evt.target;
+                        voteCaptcha.response = response;
+                        voteCaptcha.gameid = id;
+                        voteCaptcha.voteTrigger = evt.target;
                         setModalHeight('#modal-captcha');
                     }
                 });
