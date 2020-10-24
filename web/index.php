@@ -150,8 +150,15 @@ function getGame($id, $ipAddress) {
 }
 
 function validateCaptcha($secret, $response, $ip) {
+    global $CONFIG;
+
+    $validationUrl = "https://www.google.com/recaptcha/api/siteverify";
+    if ($CONFIG['CAPTCHA']['TYPE'] === "HCAPTCHA") {
+        $validationUrl = "https://hcaptcha.com/siteverify";
+    }
+
     $client = new GuzzleHttp\Client();
-    $res = $client->request('POST', "https://www.google.com/recaptcha/api/siteverify", [
+    $res = $client->request('POST', $validationUrl, [
         'form_params' => [
             'secret' => $secret,
             'response' => $response,
@@ -192,7 +199,7 @@ $app->add(new RKA\Middleware\IpAddress(true));
 $app->add(function ($request, $response, $next) {
     $nonceJS = base64_encode(random_bytes(24));
     $nonceCSS = base64_encode(random_bytes(24));
-    $CORS = "default-src https:; script-src 'self' 'nonce-$nonceJS'; object-src 'self'; style-src 'self' 'nonce-$nonceCSS'; img-src 'self' images.gog-statics.com; media-src 'self'; child-src 'none'; font-src 'self'; connect-src 'self' https://api.gog.com; frame-src https://www.google.com/recaptcha/";
+    $CORS = "default-src https:; script-src 'self' 'nonce-$nonceJS' https://hcaptcha.com https://*.hcaptcha.com; object-src 'self'; style-src 'self' 'nonce-$nonceCSS' https://hcaptcha.com https://*.hcaptcha.com; img-src 'self' images.gog-statics.com; media-src 'self'; child-src 'none'; font-src 'self'; connect-src 'self' https://api.gog.com; frame-src https://www.google.com/recaptcha/ https://hcaptcha.com https://*.hcaptcha.com";
 
     // Add global variable to Twig
     $view = $this->get('view');
