@@ -42,6 +42,7 @@ $CONFIG = [
     // reCaptcha
     "CAPTCHA" => [
         "SECRET" => "",
-        "SITE" => ""
+        "SITE" => "",
+        "TYPE" => "HCAPTCHA" // Can be "RECAPTCHA" or "HCAPTCHA"
     ]
 ];
