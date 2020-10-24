@@ -133,6 +133,6 @@
   <script nonce="{{ nonce.script }}">const RECAPTCHA_KEY="{{ config.CAPTCHA.SITE }}";</script>
   {{ loadJS(['/static/js/main.min.js'], []) }}
   {% block scripts %}{% endblock scripts %}
-  <script nonce="{{ nonce.script }}" src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&amp;render=explicit" async defer></script>
+  <script nonce="{{ nonce.script }}" src="{{ config.CAPTCHA.TYPE == "HCAPTCHA" ? "https://hcaptcha.com/1/api.js" : "https://www.google.com/recaptcha/api.js" }}?onload=onloadCallback&amp;render=explicit" async defer></script>
 </body>
 </html>

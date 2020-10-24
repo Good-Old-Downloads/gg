@@ -171,5 +171,5 @@
             document.getElementById("captcha-submit-form").submit();
         }
     </script>
-    <script nonce="{{ nonce.script }}" src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script nonce="{{ nonce.script }}" src="{{ config.CAPTCHA.TYPE == "HCAPTCHA" ? "https://hcaptcha.com/1/api.js" : "https://www.google.com/recaptcha/api.js" }}" async defer></script>
 {% endblock scripts %}
