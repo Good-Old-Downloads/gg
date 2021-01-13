@@ -31,7 +31,7 @@
       <media:content width="196" height="110" url="{{ base_url() }}/static/img/games/thumb/{{ game.id }}.jpg" type="image/jpeg" />
       <enclosure url="{{ base_url() }}/static/img/games/thumb/{{ game.id }}.jpg" type="image/jpeg" />
       <link>{{ base_url() }}/game/{{ game.slug }}</link>
-      <guid isPermaLink="false">{{ game.id }}</guid>
+      <guid isPermaLink="false">{{ game.id }} {{ game.last.update }}</guid>
     </item>
     {% endfor %}
   </channel>
