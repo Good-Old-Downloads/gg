@@ -5,9 +5,6 @@
 # GOG Games
 A continuitation of Good Old Downloads' [GOG Games](https://github.com/Good-Old-Downloads/gg) project. The goal is to create a copy of the original site by keeping games updated, voting, automated uploading, etc.
 
-# Want to run your own copy?
-Check out [GOG Games: Docker Edition](https://github.com/MachineGunnur/GOG-Games-Docker-Edition) if you would like to run your own copy!
-
 # Authors & Credits
 * MachineGunnur
 * Lindre - thanks for help friend with english :)
