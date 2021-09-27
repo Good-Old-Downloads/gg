@@ -1,4 +1,4 @@
-# WHY ARE ISSUES CLOSD?
+# WHY ARE ISSUES CLOSED?
 Because someone likes to rant and tell how the site should be ran, morals, views, etc. If you run into an issue, you can find our email on the site and reach us their for now.
 
 <p align="center">
