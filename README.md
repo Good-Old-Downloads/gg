@@ -1,3 +1,6 @@
+# WHY ARE ISSUES CLOSD?
+Because someone likes to rant and tell how the site should be ran, morals, views, etc. If you run into an issue, you can find our email on the site and reach us their for now.
+
 <p align="center">
   <img width="400" height="270" src="https://i.ibb.co/jR98pZZ/logo.png">
 </p>
