@@ -141,7 +141,7 @@ function getGame($id, $ipAddress) {
 
     $game['can_vote'] = !boolval(intval($hasVoted["has_voted"])); // If already voted then cannot vote
     if ($game['can_vote'] === true) {
-        $game['can_vote'] = ($game['uploading'] == 0 || $game['updated'] == 1 || $game['new'] == 1) && (date_create_from_format('U', $game['last_upload'])->modify('+30 day')->format('U') < (new DateTime('now'))->format('U'));
+        $game['can_vote'] = ($game['uploading'] == 0 || $game['updated'] == 1 || $game['new'] == 1) && (date_create_from_format('U', $game['last_upload'])->modify('+60 day')->format('U') < (new DateTime('now'))->format('U'));
     }
     if ($hasDrive && boolval(getOption('disable_drive_voting'))) {
         $game['can_vote'] = false;
@@ -1345,7 +1345,7 @@ $app->group('/api/public', function () use ($app) {
 
             // check if game is old enough
             $chechUploadAge = $dbh->prepare("SELECT `last_upload` FROM `games` WHERE `id` = :game_id
-                                        AND IF(DATE_ADD(FROM_UNIXTIME(`last_upload`), INTERVAL 30 DAY) >= NOW(), 0, 1)");
+                                        AND IF(DATE_ADD(FROM_UNIXTIME(`last_upload`), INTERVAL 60 DAY) >= NOW(), 0, 1)");
             $chechUploadAge->bindParam(':game_id', $id, \PDO::PARAM_INT);
             $chechUploadAge->execute();
             if ($chechUploadAge->rowCount() < 1) {
